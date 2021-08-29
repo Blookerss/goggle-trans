@@ -61,7 +61,13 @@ $(window).on("load", async() => {
                 output: currentOutput
             }
         }).json();
-        await Tauri.clipboard.writeText(`https://goggletrans.blookers.repl.co/embed/${id}`);
+
+        let embedLink = `https://goggletrans.blookers.repl.co/embed/${id}`;
+        if(Tauri)
+            await Tauri.clipboard.writeText(embedLink);
+        else
+            navigator.clipboard.writeText(embedLink);
+        
         embedButton.children(".btn-label").html("Copied Link!");
         setTimeout(() => {
             embedButton.children(".btn-label").html("Embed");
@@ -75,17 +81,21 @@ $(window).on("load", async() => {
         amountInd.html(`Amount: ${$(target).val()}`);
     });
 
-    $("#min-win").on('click', (event) => {
-        Tauri.window.getCurrent().minimize();
-    });
-    $("#max-win").on('click', async(event) => {
-        const window = Tauri.window.getCurrent();
-        if (await window.isMaximized())
-            window.unmaximize();
-        else
-            window.maximize();
-    });
-    $("#exit-win").on('click', (event) => {
-        Tauri.window.getCurrent().close();
-    });
+    if(Tauri) {
+        $("#min-win").on('click', (event) => {
+            Tauri.window.getCurrent().minimize();
+        });
+        $("#max-win").on('click', async(event) => {
+            const window = Tauri.window.getCurrent();
+            if (await window.isMaximized())
+                window.unmaximize();
+            else
+                window.maximize();
+        });
+        $("#exit-win").on('click', (event) => {
+            Tauri.window.getCurrent().close();
+        });
+    } else {
+        $(".win-btn").remove();
+    }
 });
