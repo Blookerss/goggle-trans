@@ -1,16 +1,19 @@
 {
-  "name": "goggle-trans",
-  "version": "1.0.0",
-  "description": "translation made 1000% funnier",
-  "main": "index.js",
-  "author": "Blookers",
-  "license": "MIT",
-  "private": true,
-  "devDependencies": {
-    "@tauri-apps/cli": "^1.0.0-beta.10"
-  },
-  "dependencies": {
-    "@tauri-apps/api": "^1.0.0-beta.8",
-    "fastify": "^3.20.2"
-  }
+    "name": "goggle-trans",
+    "version": "1.0.0",
+    "description": "translation made 1000% funnier",
+    "main": "index.js",
+    "author": "Blookers",
+    "license": "MIT",
+    "private": true,
+    "scripts": {
+        "web": "node server.js"
+    },
+    "devDependencies": {
+        "@tauri-apps/cli": "^1.0.0-beta.10"
+    },
+    "dependencies": {
+        "@tauri-apps/api": "^1.0.0-beta.8",
+        "fastify": "^3.20.2"
+    }
 }
