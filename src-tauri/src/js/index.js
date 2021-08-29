@@ -41,7 +41,7 @@ $(window).on("load", async() => {
                     translateTimes: parseInt(transCount.val()),
                     outputLanguage: 'auto'
                 },
-                timeout: 60000
+                timeout: false
             }).json();
             currentInput = input;
             currentOutput = result;
@@ -60,7 +60,8 @@ $(window).on("load", async() => {
             json: {
                 input: currentInput,
                 output: currentOutput
-            }
+            },
+            timeout: false
         }).json();
 
         let embedLink = `https://goggletrans.blookers.repl.co/embed/${id}`;
