@@ -54,14 +54,16 @@
                 "all": true
             },
             "window": {
-                "all": true
+                "all": true,
+                "create": true
             }
         },
         "windows": [{
             "title": "goggle trans",
             "width": 800,
-            "height": 400,
+            "height": 500,
             "center": true,
+            "focus": true,
             "resizable": true,
             "fullscreen": false,
             "decorations": false

@@ -169,6 +169,18 @@ header.navbar {
 }
 
 
+/* Footer */
+
+footer.footer {
+    left: 0;
+    width: 100%;
+    bottom: 0;
+    padding: 12px;
+    position: fixed;
+    margin-top: 24px;
+}
+
+
 /* Buttons */
 
 button.btn {
@@ -347,6 +359,60 @@ span.btn-label {
     100% {
         transform: scale(1);
     }
+}
+
+
+/* Tables */
+
+table.table {
+    display: table;
+    border-spacing: 0;
+    border-collapse: collapse;
+}
+
+table.table>thead>tr>th:first-child {
+    padding-left: 16px;
+    border-top-left-radius: 8px;
+}
+
+table.table>thead>tr>th:last-child {
+    padding-right: 16px;
+    border-top-right-radius: 8px;
+}
+
+table.table>thead>tr>th {
+    height: 48px;
+    padding: 0 8px;
+    background-color: rgb(34, 34, 34);
+}
+
+table.table>tbody>tr>td {
+    height: 48px;
+    padding: 0 8px;
+}
+
+table.table>tbody>tr>td:first-child {
+    padding-left: 16px;
+}
+
+table.table>tbody>tr>td:last-child {
+    padding-right: 16px;
+}
+
+table.table>tbody>tr:nth-of-type(odd)>td {
+    background-color: #2C2C2C;
+}
+
+table.table>tbody>tr:nth-of-type(even)>td {
+    background-color: #222222;
+}
+
+table.table>tbody>tr:last-child>td:first-child {
+    border-bottom-left-radius: 8px;
+}
+
+table.table>tbody>tr:last-child>td:last-child {
+    border-bottom-left-radius: 8px;
 }
 
 

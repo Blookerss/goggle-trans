@@ -16,7 +16,7 @@ let languages = [
     'hi'
 ];
 
-const Tauri = window.__TAURI__;
+const {...Tauri } = window.__TAURI__;
 let currentInput, currentOutput;
 $(window).on("load", async() => {
     ky.get("https://goggletrans.blookers.repl.co/api");
@@ -59,15 +59,16 @@ $(window).on("load", async() => {
             json: {
                 input: currentInput,
                 output: currentOutput
-            }
+            },
+            timeout: 60000
         }).json();
 
         let embedLink = `https://goggletrans.blookers.repl.co/embed/${id}`;
-        if(Tauri)
+        if (Tauri)
             await Tauri.clipboard.writeText(embedLink);
         else
             navigator.clipboard.writeText(embedLink);
-        
+
         embedButton.children(".btn-label").html("Copied Link!");
         setTimeout(() => {
             embedButton.children(".btn-label").html("Embed");
@@ -81,7 +82,14 @@ $(window).on("load", async() => {
         amountInd.html(`Amount: ${$(target).val()}`);
     });
 
-    if(Tauri) {
+    if (Tauri) {
+        $("#historyButton").on('click', async event => {
+            let historyView = new Tauri.window.WebviewWindow("history", {
+                url: "./history.html",
+                title: "Translation History",
+                center: true
+            });
+        });
         $(".download-btn").remove();
         $("#min-win").on('click', (event) => {
             Tauri.window.getCurrent().minimize();
@@ -103,7 +111,7 @@ $(window).on("load", async() => {
             "absolute"
         ).css(
             "left",
-            "24px"   
+            "24px"
         );
         $(".download-btn").css(
             "position",
@@ -116,7 +124,7 @@ $(window).on("load", async() => {
 });
 $(".download-btn").on('click', async() => {
     let nav = $("header");
-    if(!Tauri) {
+    if (!Tauri) {
         window.location.href = "https://goggletrans.blookers.repl.co/";
         $(".download-btn").remove();
         nav.find("*").css(
