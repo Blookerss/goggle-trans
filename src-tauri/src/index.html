@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 
 <head>
     <meta charset="utf-8">
@@ -16,12 +16,16 @@
     <!-- Navigation Bar -->
     <header class="navbar grid-container grid-align-items-center grid-space-between" data-tauri-drag-region>
         <!-- Brand / Title -->
-        <div class="grid-container grid-align-items-center">
+        <div class="grid-container grid-align-items-center grid-justify-center">
             <img class="nav-icon" src="/img/goggletrans.png" alt="logo">
             <p class="nav-title typography typography-body1">goggle trans</p>
         </div>
         <!-- Navigation Items -->
         <div class="grid-container grid-align-items-center">
+            <button id="download" class="download-btn">
+                <i class="bi bi-link-45deg"></i>
+                <i>Download</i>
+            </button>
             <button id="min-win" class="win-btn">
                 <i class="bi bi-fullscreen-exit"></i>
             </button>
@@ -49,8 +53,8 @@
                 </div>
                 <div class="grid-container grid-justify-fend">
                     <div class="grid-container grid-flex-column grid-align-items-center mr-16">
-                        <p class="nav-title typography typography-body1">Translation Amount</p>
-                        <input class="translateCount" type="range" min="1" max="10" value="5">
+                        <p class="nav-title typography typography-body1" for=".translateCount">Translation Amount</p>
+                        <input class="translateCount" type="range" min="1" max="10" value="5" title="Translate Amount">
                     </div>
                     <button id="embedButton" class="btn btn-outlined" disabled>
                         <span class="btn-label">Embed</span>

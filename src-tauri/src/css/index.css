@@ -80,3 +80,17 @@
     flex-shrink: 0;
     background-color: #565656;
 }
+
+button.download-btn {
+    color: #cccbcb;
+    border: none;
+    cursor: pointer;
+    font-size: 0.9rem;
+    background: none;
+    font-weight: 500;
+    font-family: HCo Gotham SSm, Helvetica Neue, Helvetica, Arial, Lucida Grande, sans-serif;
+}
+
+button.download-btn > i {
+    font-style: normal;
+}
