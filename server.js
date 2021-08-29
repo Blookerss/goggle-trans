@@ -9,4 +9,4 @@ fastify.get('/', async(request, reply) => {
     return reply.sendFile('index.html');
 });
 
-fastify.listen(3000);
+fastify.listen(process.env.PORT);
