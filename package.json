@@ -14,6 +14,8 @@
     },
     "dependencies": {
         "@tauri-apps/api": "^1.0.0-beta.8",
-        "fastify": "^3.20.2"
+        "fastify": "^3.20.2",
+        "fastify-static": "^4.2.3",
+        "path": "^0.12.7"
     }
 }

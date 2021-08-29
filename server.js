@@ -1,3 +1,4 @@
+const path = require('path');
 const fastify = require('fastify').default({ logger: true });
 fastify.register(require('fastify-static'), {
     root: path.join(__dirname, 'src-tauri/src/'),
