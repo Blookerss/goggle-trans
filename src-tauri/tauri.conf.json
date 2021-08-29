@@ -1,0 +1,73 @@
+{
+    "package": {
+        "productName": "goggle trans",
+        "version": "0.1.0"
+    },
+    "build": {
+        "distDir": "./src",
+        "devPath": "./src",
+        "withGlobalTauri": true,
+        "beforeDevCommand": "",
+        "beforeBuildCommand": ""
+    },
+    "tauri": {
+        "bundle": {
+            "active": true,
+            "targets": "all",
+            "identifier": "io.github.blookers.goggletrans",
+            "icon": [
+                "icons/32x32.png",
+                "icons/128x128.png",
+                "icons/128x128@2x.png",
+                "icons/icon.icns",
+                "icons/icon.ico"
+            ],
+            "resources": [],
+            "externalBin": [],
+            "copyright": "",
+            "category": "Utility",
+            "shortDescription": "translation, 1000% funnier.",
+            "longDescription": "goggle trans, messing up sentences for your own enjoyment.",
+            "deb": {
+                "depends": [],
+                "useBootstrapper": false
+            },
+            "macOS": {
+                "frameworks": [],
+                "minimumSystemVersion": "",
+                "useBootstrapper": false,
+                "exceptionDomain": "",
+                "signingIdentity": null,
+                "entitlements": null
+            },
+            "windows": {
+                "certificateThumbprint": null,
+                "digestAlgorithm": "sha256",
+                "timestampUrl": ""
+            }
+        },
+        "updater": {
+            "active": false
+        },
+        "allowlist": {
+            "notification": {
+                "all": true
+            },
+            "window": {
+                "all": true
+            }
+        },
+        "windows": [{
+            "title": "goggle trans",
+            "width": 800,
+            "height": 400,
+            "center": true,
+            "resizable": true,
+            "fullscreen": false,
+            "decorations": false
+        }],
+        "security": {
+            "csp": "default-src 'self' *"
+        }
+    }
+}

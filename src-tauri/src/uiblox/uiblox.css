@@ -1,0 +1,391 @@
+@import url("./font/bootstrap-icons.css");
+html {
+    box-sizing: border-box;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+*,
+*::before,
+*::after {
+    box-sizing: inherit;
+}
+
+strong,
+b {
+    font-weight: 700;
+}
+
+body {
+    color: #FFFFFF;
+    margin: 0;
+    font-size: 1rem;
+    font-family: HCo Gotham SSm, Helvetica Neue, Helvetica, Arial, Lucida Grande, sans-serif;
+    font-weight: 500;
+    line-height: 1.43;
+    background-color: #1D1D1D;
+}
+
+@media print {
+    body {
+        background-color: #fff;
+    }
+}
+
+body::backdrop {
+    background-color: #1D1D1D;
+}
+
+@font-face {
+    font-family: HCo Gotham SSm;
+    src: url("./font/GothamSSm-Light.woff2") format('woff2');
+    font-weight: 300;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: HCo Gotham SSm;
+    src: url("./font/GothamSSm-Book.woff2") format('woff2');
+    font-weight: 400;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: HCo Gotham SSm;
+    src: url("./font/GothamSSm-Medium.woff2") format('woff2');
+    font-weight: 500;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: HCo Gotham SSm;
+    src: url("./font/GothamSSm-Bold.woff2") format('woff2');
+    font-weight: 700;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: HCo Gotham SSm;
+    src: url("./font/GothamSSm-Black.woff2") format('woff2');
+    font-weight: 800;
+    font-style: normal;
+}
+
+
+/* Typography */
+
+.typography {
+    margin: 0;
+}
+
+.typography-body1 {
+    font-size: 1rem;
+    font-weight: 500;
+    line-height: 1.5;
+}
+
+
+/* Navigation Bar */
+
+header.navbar {
+    top: 0;
+    width: 100%;
+    height: 64px;
+    z-index: 1100;
+    padding: 0 24px;
+    position: fixed;
+    background-color: rgba(18, 18, 18, 1);
+}
+
+.nav-icon {
+    width: 36px;
+    height: 36px;
+    vertical-align: middle;
+}
+
+.nav-title {
+    margin-left: 12px;
+}
+
+.win-btn {
+    color: #cccbcb;
+    border: none;
+    cursor: pointer;
+    background: none;
+}
+
+
+/* MuiGrid */
+
+.grid-container {
+    display: flex;
+    flex-wrap: wrap;
+    box-sizing: border-box;
+}
+
+.grid-flex-column {
+    flex-direction: column;
+}
+
+.grid-align-items-fstart {
+    align-items: flex-start;
+}
+
+.grid-align-items-center {
+    align-items: center;
+}
+
+.grid-align-content-center {
+    align-content: center;
+}
+
+.grid-space-between {
+    justify-content: space-between;
+}
+
+.grid-justify-center {
+    justify-content: center;
+}
+
+.grid-justify-fend {
+    justify-content: flex-end;
+}
+
+.mr-8 {
+    margin-right: 8px;
+}
+
+.mr-16 {
+    margin-right: 16px;
+}
+
+
+/* Page Content */
+
+.page-content {
+    padding: 16px 16px 0 16px;
+    flex-grow: 1;
+    margin-top: 64px;
+}
+
+
+/* Buttons */
+
+button.btn {
+    border: 0;
+    margin: 0;
+    height: 48px;
+    cursor: pointer;
+    outline: 0;
+    display: inline-flex;
+    position: relative;
+    font-size: 1rem;
+    min-width: 160px;
+    box-shadow: none;
+    transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms, box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms, border 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+    padding-top: 0;
+    font-family: HCo Gotham SSm, Helvetica Neue, Helvetica, Arial, Lucida Grande, sans-serif;
+    font-weight: 500;
+    line-height: 1.43;
+    align-items: center;
+    border-radius: 4px;
+    padding-bottom: 0;
+    text-transform: none;
+    vertical-align: middle;
+    text-decoration: none;
+    justify-content: center;
+    -webkit-appearance: none;
+    -webkit-tap-highlight-color: transparent;
+}
+
+
+/* Primary Button */
+
+button.btn.btn-primary {
+    color: rgba(18, 18, 18, 1);
+    background-color: #00E87E;
+}
+
+button.btn.btn-primary:hover {
+    background-color: #26FF9C;
+}
+
+button.btn.btn-primary:active {
+    background-color: #00B864;
+}
+
+button.btn.btn-primary:disabled {
+    cursor: not-allowed;
+    background-color: rgb(0, 79, 43);
+}
+
+
+/* Outlined Button */
+
+button.btn.btn-outlined {
+    color: #ffffff;
+    border-width: 1px;
+    border-style: solid;
+    border-color: #FFFFFF;
+    background-color: transparent;
+}
+
+button.btn.btn-outlined:hover {
+    background-color: #e1e1e1;
+}
+
+button.btn.btn-outlined:active {
+    color: #cbcbcb;
+    background-color: #cbcbcb;
+}
+
+button.btn.btn-outlined:disabled {
+    color: rgb(86, 86, 86);
+    cursor: not-allowed;
+    border-color: rgb(86, 86, 86);
+}
+
+span.btn-label {
+    width: 100%;
+    display: inherit;
+    align-items: inherit;
+    justify-content: inherit;
+}
+
+.icon-button {
+    flex: 0 0 auto;
+    color: #ffffff;
+    padding: 12px;
+    overflow: visible;
+    font-size: 1.7142857142857142rem;
+    text-align: center;
+    transition: background-color 150ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+    border-radius: 50%;
+}
+
+.icon-button-label {
+    width: 100%;
+    display: flex;
+    align-items: inherit;
+    justify-content: inherit;
+}
+
+.touch-ripple {
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 0;
+    overflow: hidden;
+    position: absolute;
+    border-radius: inherit;
+    pointer-events: none;
+}
+
+.touch-ripple-ripple {
+    opacity: 0;
+    position: absolute;
+}
+
+.touch-ripple-visible {
+    opacity: 0.3;
+    animation: touch-ripple-keyframes-enter 550ms cubic-bezier(0.4, 0, 0.2, 1);
+    transform: scale(1);
+}
+
+.touch-ripple-pulsate {
+    animation-duration: 200ms;
+}
+
+.touch-ripple-child {
+    width: 100%;
+    height: 100%;
+    opacity: 1;
+    display: block;
+    border-radius: 50%;
+    background-color: currentColor;
+}
+
+.touch-ripple-leaving {
+    opacity: 0;
+    animation: touch-ripple-keyframes-exit 550ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.touch-ripple-pulsate {
+    top: 0;
+    left: 0;
+    position: absolute;
+    animation: touch-ripple-keyframes-pulsate 2500ms cubic-bezier(0.4, 0, 0.2, 1) 200ms infinite;
+}
+
+@keyframes touch-ripple-keyframes-enter {
+    0% {
+        opacity: 0.1;
+        transform: scale(0);
+    }
+    100% {
+        opacity: 0.3;
+        transform: scale(4);
+    }
+}
+
+@keyframes touch-ripple-keyframes-exit {
+    0% {
+        opacity: 1;
+    }
+    100% {
+        opacity: 0;
+    }
+}
+
+@keyframes touch-ripple-keyframes-pulsate {
+    0% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(0.92);
+    }
+    100% {
+        transform: scale(1);
+    }
+}
+
+
+/* the uh mmmmm ttttttt */
+
+.control-label {
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    margin-left: -11px;
+    margin-right: 16px;
+    vertical-align: middle;
+    -webkit-tap-highlight-color: transparent;
+}
+
+.svg-icon {
+    fill: currentColor;
+    width: 1em;
+    height: 1em;
+    display: inline-block;
+    font-size: 1.7142857142857142rem;
+    transition: fill 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+    flex-shrink: 0;
+    user-select: none;
+}
+
+
+/* Form Elements */
+
+.checkbox {
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    cursor: inherit;
+    margin: 0;
+    opacity: 0;
+    padding: 0;
+    z-index: 1;
+    position: absolute;
+}
