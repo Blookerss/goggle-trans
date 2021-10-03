@@ -83,7 +83,7 @@ $(window).on("load", async() => {
         amountInd.html(`Amount: ${$(target).val()}`);
     });
 
-    if (Tauri) {
+    if (window.__TAURI__) {
         $("#historyButton").on('click', async event => {
             let historyView = new Tauri.window.WebviewWindow("history", {
                 url: "./history.html",
@@ -125,7 +125,7 @@ $(window).on("load", async() => {
 });
 $(".download-btn").on('click', async() => {
     let nav = $("header");
-    if (!Tauri) {
+    if (!window.__TAURI__) {
         window.location.href = "https://goggletrans.blookers.repl.co/";
         $(".download-btn").remove();
         nav.find("*").css(
