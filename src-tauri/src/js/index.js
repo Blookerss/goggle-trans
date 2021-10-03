@@ -16,7 +16,7 @@ let languages = [
     'hi'
 ];
 
-const {...Tauri } = window.__TAURI__;
+const {...Tauri } = window.__TAURI__ || {};
 let currentInput, currentOutput;
 $(window).on("load", async() => {
     ky.get("https://goggletrans.blookers.repl.co/api");
