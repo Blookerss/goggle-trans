@@ -123,6 +123,10 @@ header.navbar {
     box-sizing: border-box;
 }
 
+.grid-no-wrap {
+    flex-wrap: nowrap;
+}
+
 .grid-flex-column {
     flex-direction: column;
 }

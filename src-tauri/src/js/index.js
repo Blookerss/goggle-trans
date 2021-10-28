@@ -84,6 +84,14 @@ $(window).on("load", async() => {
     });
 
     if (window.__TAURI__) {
+        $("#switch1Button").on('click', async event => {
+            let historyView = new Tauri.window.WebviewWindow("switch1", {
+                url: "./textgentrans.html",
+                title: "Sentence Generator",
+                center: true,
+                width: 1000
+            });
+        });
         $("#historyButton").on('click', async event => {
             let historyView = new Tauri.window.WebviewWindow("history", {
                 url: "./history.html",
