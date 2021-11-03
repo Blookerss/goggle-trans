@@ -1,7 +1,7 @@
 const path = require('path');
 const fastify = require('fastify').default({ logger: true });
 fastify.register(require('fastify-static'), {
-    root: path.join(__dirname, 'build')
+    root: path.join(__dirname, 'build/')
 });
 
 fastify.get('/', async(request, reply) => {
