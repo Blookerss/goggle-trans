@@ -1,13 +1,19 @@
 {
     "name": "goggle-trans",
-    "version": "1.0.0",
+    "version": "2.0.0",
     "description": "translation made 1000% funnier",
     "main": "index.js",
     "author": "Blookers",
     "license": "MIT",
     "private": true,
     "scripts": {
-        "web": "node server.js"
+        "web": "node server.js",
+        "dev": "react-scripts build && tauri dev",
+        "start": "react-scripts start",
+        "build": "react-scripts build",
+        "bundle": "react-scripts build && tauri build",
+        "test": "react-scripts test",
+        "eject": "react-scripts eject"
     },
     "devDependencies": {
         "@tauri-apps/cli": "^1.0.0-beta.10"
@@ -16,6 +22,27 @@
         "@tauri-apps/api": "^1.0.0-beta.8",
         "fastify": "^3.20.2",
         "fastify-static": "^4.2.3",
-        "path": "^0.12.7"
+        "ky": "^0.28.6",
+        "path": "^0.12.7",
+        "react": "^17.0.2",
+        "react-dom": "^17.0.2",
+        "react-scripts": "^4.0.3",
+        "react-toastify": "^8.0.3",
+        "styled-components": "^5.3.3"
+    },
+    "eslintConfig": {
+        "extends": "react-app"
+    },
+    "browserslist": {
+        "production": [
+            ">0.2%",
+            "not dead",
+            "not op_mini all"
+        ],
+        "development": [
+            "last 1 chrome version",
+            "last 1 firefox version",
+            "last 1 safari version"
+        ]
     }
 }
