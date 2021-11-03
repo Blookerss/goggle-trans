@@ -75,6 +75,7 @@ const InputTextAreaComponent = styled(SpanEditable)`
     cursor: text;
     margin: 4px 0 0 12px;
     outline: none;
+    display: inline-block;
     font-size: 1rem;
     background: none;
     font-weight: 500;
@@ -103,6 +104,7 @@ const InputResultComponent = styled.p`
     font-size: 1rem;
     background: none;
     font-weight: 500;
+    white-space: pre-line;
 
     &.nores {
         color: #ffffff4d;
@@ -164,14 +166,14 @@ class Translation extends React.Component {
         if(!this.state.translating) {
             this.setState({
                 translating: true,
-                result: '',
-                input: this.state.inputValue
+                result: ''
             });
+            this.state.input = this.state.inputValue.replace(/<br>/g, '\n').replace(/<div>/g, '').replace(/<\/div>/g, '\n');
 
             let { result } = await toast.promise(
                 ky.post("https://goggletrans.blookers.repl.co/api/translate", {
                     json: {
-                        input: this.state.inputValue,
+                        input: this.state.input,
                         language: 'en',
                         translateTimes: this.state.translations,
                         outputLanguage: this.state.automaticResult ? 'auto' : 'en'
@@ -234,8 +236,6 @@ class Translation extends React.Component {
     }
 
     render() {
-        console.log(this.state);
-        console.log(this.state.enabled && !this.state.translating);
         return (
             <MainComponent direction="vertical">
                 <TopComponent spacing="16px" alignItems="center">

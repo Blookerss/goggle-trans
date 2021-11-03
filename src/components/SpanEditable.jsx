@@ -8,14 +8,15 @@ class SpanEditable extends React.Component {
     
     render() {
         return (
-            <div
+            <span
                 ref={this.ref}
                 onBlur={this.emitChange.bind(this)}
                 onInput={this.emitChange.bind(this)}
                 contentEditable
-                dangerouslySetInnerHTML={{ __html: this.props.html }}
                 {...this.props}
-            />
+            >
+                {this.props.html}
+            </span>
         );
     }
 
@@ -31,7 +32,6 @@ class SpanEditable extends React.Component {
 
     emitChange() {
         let html = this.ref.current.innerHTML;
-        console.log(html);
         if (this.props.onChange && html !== this.lastHtml) {
             this.props.onChange({
                 target: {
