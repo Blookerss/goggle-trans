@@ -4,8 +4,8 @@
         "version": "0.1.0"
     },
     "build": {
-        "distDir": "./src",
-        "devPath": "./src",
+        "distDir": "../build",
+        "devPath": "../build",
         "withGlobalTauri": true,
         "beforeDevCommand": "",
         "beforeBuildCommand": ""
@@ -69,7 +69,7 @@
             "decorations": false
         }],
         "security": {
-            "csp": "default-src 'self' *"
+            "csp": "default-src blob: data: filesystem: ws: http: https: 'unsafe-eval' 'unsafe-inline' 'self' img-src: 'self'"
         }
     }
 }
