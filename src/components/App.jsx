@@ -1,14 +1,16 @@
 import React from 'react';
 import styled from 'styled-components';
 
-const AppComponent = styled.div`
+import Grid from './Grid';
+
+const AppComponent = styled(Grid)`
     
 `;
 
 class App extends React.Component {
     render() {
         return (
-            <AppComponent>
+            <AppComponent direction="vertical">
                 {this.props.children}
             </AppComponent>
         );

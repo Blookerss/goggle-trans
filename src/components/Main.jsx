@@ -5,7 +5,6 @@ const MainComponent = styled.main`
     display: flex;
     padding: 32px 40px 0 40px;
     flex-grow: 1;
-    margin-top: 64px;
     align-items: center;
     align-content: center;
     flex-direction: column;

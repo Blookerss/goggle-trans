@@ -1,11 +1,32 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import IndexPage from './pages/index';
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 import * as serviceWorker from './serviceWorker';
 
-ReactDOM.render(<IndexPage/>, document.getElementById('root'));
+import DataController from "./dataController";
+DataController.build().then(dataController => {
+    window.$__DATA__ = dataController;
 
-// If you want your app to work offline and load faster, you can change
-// unregister() to register() below. Note this comes with some pitfalls.
-// Learn more about service workers: https://bit.ly/CRA-PWA
-serviceWorker.unregister();
+    const { Home, Settings, Generator, NotFound } = require('./pages');
+
+    const Tauri = window.__TAURI__;
+    const rootElement = document.getElementById('root');
+    ReactDOM.render(
+        <BrowserRouter>
+            <Routes>
+                <Route exact path="/" element={<Home />} />
+                <Route exact path="/settings" element={<Settings />} />
+                <Route exact path="/generator" element={<Generator />} />
+                <Route path="/*" element={<NotFound />} />
+            </Routes>
+        </BrowserRouter>,
+        rootElement
+    );
+
+    if (Tauri) {
+        rootElement.classList.add("root-tauri");
+        document.body.classList.add("body-tauri");
+    }
+
+    serviceWorker.unregister();
+});

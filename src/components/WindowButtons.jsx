@@ -44,13 +44,13 @@ class WindowButtons extends React.Component {
         return (
             <WindowButtonsComponent spacing="16px" direction="horizontalReverse" alignItems="center">
                 <WindowButtonComponent color="#ff7070" onClick={this.closeWindow.bind(this)}>
-                    <i class="bi bi-x-lg" />
+                    <i className="bi bi-x-lg" />
                 </WindowButtonComponent>
                 <WindowButtonComponent color="#ffffff" onClick={this.maximizeWindow.bind(this)}>
-                    <i class="bi bi-fullscreen" />
+                    <i className="bi bi-fullscreen" />
                 </WindowButtonComponent>
                 <WindowButtonComponent color="#ffffff" onClick={this.minimizeWindow.bind(this)}>
-                    <i class="bi bi-fullscreen-exit" />
+                    <i className="bi bi-fullscreen-exit" />
                 </WindowButtonComponent>
             </WindowButtonsComponent>
         );

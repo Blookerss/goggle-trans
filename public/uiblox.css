@@ -26,6 +26,17 @@ body {
     background-color: #1D1D1D;
 }
 
+body.body-tauri {
+    background-color: transparent;
+}
+
+.root-tauri {
+    height: 100vh;
+    overflow: hidden;
+    border-radius: 8px;
+    background-color: #1D1D1D;
+}
+
 .gotham {
     font-family: HCo Gotham SSm, Helvetica Neue, Helvetica, Arial, Lucida Grande, sans-serif !important;
 }
