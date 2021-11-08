@@ -4,6 +4,7 @@ import styled, { keyframes } from 'styled-components';
 
 import Grid from './Grid';
 import Button from './Button';
+import Accordion from './Accordion';
 import Typography from './Typography';
 import SpanEditable from './SpanEditable';
 
@@ -29,7 +30,7 @@ const TopComponent = styled(Grid)`
 
 const BottomComponent = styled(Grid)`
     width: 100%;
-    padding: 8px 8px 24px 8px;
+    padding: 8px;
 `;
 
 const InputComponent = styled.div`
@@ -111,6 +112,12 @@ const InputResultComponent = styled.p`
     }
 `;
 
+const ProgressionChild = styled.div`
+    border-bottom: 1px solid #ffffff2b;
+    padding: 0 0 16px 0;
+    margin: 0 0 32px 16px;
+`;
+
 const TranslateAmount = styled.input`
 
 `;
@@ -126,7 +133,8 @@ class Translation extends React.Component {
             inputValue: '',
             translating: false,
             translations: 5,
-            automaticResult: true
+            automaticResult: true,
+            translationProgression: []
         };
     }
 
@@ -165,12 +173,13 @@ class Translation extends React.Component {
     async translate() {
         if(!this.state.translating) {
             this.setState({
+                translationProgression: [],
                 translating: true,
                 result: ''
             });
             this.state.input = this.state.inputValue.replace(/<br>/g, '\n').replace(/<div>/g, '').replace(/<\/div>/g, '\n');
 
-            let { result } = await toast.promise(
+            let { result, progression } = await toast.promise(
                 ky.post("https://goggletrans.blookers.repl.co/api/translate", {
                     json: {
                         input: this.state.input,
@@ -193,6 +202,7 @@ class Translation extends React.Component {
             );
 
             this.setState({
+                translationProgression: progression,
                 translating: false,
                 result
             });
@@ -290,6 +300,26 @@ class Translation extends React.Component {
                             {this.state.result || "The Translation Result will appear here."}
                         </InputResultComponent>
                     </InputComponent>
+                    <Accordion title="Translation Progression" margin="16px 0 0 0" titleSize="1rem" titleColor="#ffffffcc">
+                        {this.state.translationProgression.map(
+                            (prog, index) => <ProgressionChild>
+                                <Typography text={`Translation ${index + 1}`}/>
+                                <InputHeaderComponent>
+                                    Input (from {prog.language[0].toUpperCase()})
+                                </InputHeaderComponent>
+                                <InputResultComponent>
+                                    {prog.from}
+                                </InputResultComponent>
+
+                                <InputHeaderComponent>
+                                    Result (to {prog.language[1].toUpperCase()})
+                                </InputHeaderComponent>
+                                <InputResultComponent>
+                                    {prog.to}
+                                </InputResultComponent>
+                            </ProgressionChild>
+                        )}
+                    </Accordion>
                 </BottomComponent>
                 <ToastContainer/>
             </MainComponent>

@@ -5,6 +5,7 @@ const GridComponent = styled.div`
     gap: ${props => props.spacing || 0};
     margin: ${props => props.margin || 0};
     display: flex;
+    padding: ${props => props.padding || 0};
     flex-flow: ${props => props.flow || "row nowrap"};
     flex-wrap: ${props => props.wrap ? {none: "nowrap", wrap: "wrap", reverse: "wrap-reverse"}[props.wrap] : "nowrap"};
     align-items: ${props => props.alignItems || "stretch"};

@@ -37,6 +37,10 @@ body.body-tauri {
     background-color: #1D1D1D;
 }
 
+#root {
+    overflow-y: scroll;
+}
+
 .gotham {
     font-family: HCo Gotham SSm, Helvetica Neue, Helvetica, Arial, Lucida Grande, sans-serif !important;
 }
@@ -84,4 +88,24 @@ body::backdrop {
     src: url("./font/GothamSSm-Black.woff2") format('woff2');
     font-weight: 800;
     font-style: normal;
+}
+
+/* width */
+::-webkit-scrollbar {
+    width: 10px;
+}
+  
+/* Track */
+::-webkit-scrollbar-track {
+    background: #222222;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+    background: #ffffffcc;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+    background: #555;
 }
