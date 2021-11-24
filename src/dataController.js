@@ -1,7 +1,11 @@
 const { fs, path } = window.__TAURI__ || {};
 const dataDefaults = {
+    history: [],
     settings: {
-        checkApi: true
+        checkApi: true,
+        history: {
+            enabled: true
+        }
     }
 };
 
@@ -18,17 +22,11 @@ class DataObject {
     }
 
     static async build(dataController, dataName) {
-        //let dataPath, cache;
-        console.log(dataController.dataPath);
-        //let dataPath = path ? await path.resolve(dataController.dataPath, `/${dataName}.json`) : null;
-        let dataPath = dataController.dataPath + `\\${dataName}.json`
-        let cache;
-        try {
-            cache = fs ? JSON.parse(await fs.readTextFile(
-                dataPath
-            )) : JSON.parse(localStorage.getItem(dataName));
-        } catch (err) { }
-        return new DataObject(dataController, dataName, dataPath, cache);
+        return new Promise(async(resolve, reject) => {
+            let cache = await DataObject.getData(dataController, dataName);
+            let dataPath = dataController.dataPath + `${dataName}.json`;
+            resolve(new DataObject(dataController, dataName, dataPath, cache));
+        });
     }
 
     updateStored(cache, def) {
@@ -36,21 +34,59 @@ class DataObject {
         for (let i = 0; i < defaultKeys.length; i++) {
             let cacheValue = cache[defaultKeys[i]];
             let defaultValue = def[defaultKeys[i]];
-            if (defaultValue && !cacheValue)
+            if (defaultValue !== undefined && cacheValue === undefined) {
                 cache[defaultKeys[i]] = def[defaultKeys[i]];
-            else if (typeof cacheValue == "object") {
+            } else if (typeof cacheValue == "object") {
                 this.updateStored(cacheValue, defaultValue);
             }
         }
         this.save();
+        return this;
+    }
+
+    add(value) {
+        if(!this.cache instanceof Array)
+            throw new TypeError("DATA_IS_OBJECT");
+        this.cache.push(value);
+        this.save();
+        return this;
     }
 
     get(path) {
-
+        let pathArray = path.split(".");
+        let value = this.cache;
+        for (let i = 0; i < pathArray.length; i++) {
+            let index = pathArray[i];
+            value = value[index];
+        }
+        return value;
     }
 
-    set(path, value) {
+    getAll() {
+        return DataObject.getData(this.dataController, this.dataName);
+    }
 
+    static async getData(dataController, dataName) {
+        return new Promise(async(resolve, reject) => {
+            let dataPath = dataController.dataPath + `${dataName}.json`;
+            let cache = fs ? JSON.parse(await fs.readTextFile(
+                dataPath
+            )) : JSON.parse(localStorage.getItem(dataName));
+            resolve(cache);
+        });
+    }
+
+    set(path, newValue) {
+        let schema = this.cache;
+        let pathArray = path.split(".");
+        let length = pathArray.length;
+        for (let i = 0; i < length - 1; i++) {
+            let index = pathArray[i];
+            schema = schema[index];
+        }
+        schema[pathArray[length - 1]] = newValue;
+        this.save();
+        return this;
     }
 
     async save() {

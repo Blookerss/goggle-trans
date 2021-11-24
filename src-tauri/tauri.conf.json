@@ -1,7 +1,7 @@
 {
     "package": {
         "productName": "goggle trans",
-        "version": "0.2.0"
+        "version": "2.1.0"
     },
     "build": {
         "distDir": "../build",
@@ -72,6 +72,10 @@
             },
             "path": {
                 "all": true
+            },
+            "http": {
+                "all": true,
+                "request": true
             }
         },
         "windows": [{
@@ -86,7 +90,7 @@
             "transparent": true
         }],
         "security": {
-            "csp": "default-src blob: data: filesystem: ws: http: https: 'unsafe-eval' 'unsafe-inline' 'self' img-src: 'self'"
+            "csp": "default-src blob: data: filesystem: ws: http: https: * 'unsafe-eval' 'unsafe-inline' 'self' img-src: 'self'"
         }
     }
 }

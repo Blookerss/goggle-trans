@@ -7,7 +7,7 @@ import DataController from "./dataController";
 DataController.build().then(dataController => {
     window.$__DATA__ = dataController;
 
-    const { Home, Settings, Generator, NotFound } = require('./pages');
+    const { Home, History, Settings, Generator, NotFound } = require('./pages');
 
     const Tauri = window.__TAURI__;
     const rootElement = document.getElementById('root');
@@ -15,6 +15,7 @@ DataController.build().then(dataController => {
         <BrowserRouter>
             <Routes>
                 <Route exact path="/" element={<Home />} />
+                <Route exact path="/history" element={<History />} />
                 <Route exact path="/settings" element={<Settings />} />
                 <Route exact path="/generator" element={<Generator />} />
                 <Route path="/*" element={<NotFound />} />

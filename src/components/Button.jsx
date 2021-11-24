@@ -1,6 +1,19 @@
 import React from 'react';
 import styled from 'styled-components';
 
+const Sizes = {
+    medium: {
+        width: 160,
+        height: 48,
+        padding: '0 22px'
+    },
+    small: {
+        width: 128,
+        height: 36,
+        padding: '0 10px'
+    }
+}
+
 const Themes = {
     primary: {
         color: {
@@ -62,18 +75,40 @@ const Themes = {
             disabled: "#565656"
         }
     },
+    alert: {
+        color: {
+            hover: "#F6837E",
+            normal: "#F2453D",
+            active: "#F2453D",
+            disabled: "#7a0d08"
+        },
+        border: {
+            hover: "transparent",
+            normal: "transparent",
+            active: "transparent",
+            disabled: "transparent"
+        },
+        textColor: {
+            hover: "#121212",
+            normal: "#121212",
+            active: "#121212",
+            disabled: "#121212"
+        }
+    },
 };
 const ButtonComponent = styled.button`
+    width: fit-content;
     color: ${props => Themes[props.theme].textColor.normal};
     margin: 0;
-    height: 48px;
+    height: ${props => Sizes[props.size].height}px;
     border: ${props => Themes[props.theme].border.normal};
     cursor: pointer;
     outline: 0;
+    padding: ${props => Sizes[props.size].padding};
     display: inline-flex;
     position: relative;
     font-size: 1rem;
-    min-width: 160px;
+    min-width: ${props => Sizes[props.size].width}px;
     box-shadow: none;
     transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms, box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms, border 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
     padding-top: 0;
@@ -117,7 +152,7 @@ const IconComponent = styled.i`
 class Button extends React.Component {
     render() {
         return (
-            <ButtonComponent {...this.props} theme={this.props.theme || "primary"}>
+            <ButtonComponent {...this.props} size={this.props.size || "medium"} theme={this.props.theme || "primary"}>
                 <IconComponent className={this.props.icon} theme={this.props.theme || "primary"}/>
                 {this.props.text || "Button"}
             </ButtonComponent>

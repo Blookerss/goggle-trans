@@ -41,6 +41,8 @@ class WindowButtons extends React.Component {
     }
 
     render() {
+        if(!Tauri)
+            return <WindowButtonsComponent spacing="16px" direction="horizontalReverse" alignItems="center"/>
         return (
             <WindowButtonsComponent spacing="16px" direction="horizontalReverse" alignItems="center">
                 <WindowButtonComponent color="#ff7070" onClick={this.closeWindow.bind(this)}>

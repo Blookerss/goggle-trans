@@ -5,7 +5,7 @@ import Grid from './Grid';
 import Typography from './Typography';
 
 const AccordionComponent = styled(Grid)`
-    background-color: #222222;
+    background-color: ${props => props.color ?? "#2C2C2C"};
 
     > * {
         &:first-child {
@@ -25,7 +25,7 @@ const TitleComponent = styled(Grid)`
     padding: 0 24px;
     min-height: ${props => props.open ? 64 : 48}px;
     transition: min-height 214ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
-    background-color: #2C2C2C;
+    background-color: ${props => props.color ?? "#2C2C2C"};
 `;
 
 const ChildrenComponent = styled(Grid)`
@@ -34,7 +34,7 @@ const ChildrenComponent = styled(Grid)`
     overflow: hidden;
     visibility: ${props => props.open ? 'visible' : 'hidden'};
     transition: all 214ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
-    background-color: #2C2C2C;
+    background-color: ${props => props.color ?? "#2C2C2C"};
 `;
 
 class Accordion extends React.Component {
@@ -51,16 +51,18 @@ class Accordion extends React.Component {
                 direction="vertical"
                 {...this.props}
             >
-                <TitleComponent open={this.state.open} onClick={this.onClick.bind(this)} alignItems="center">
-                    <Typography
-                        text={this.props.title || "Accordion Title"}
-                        size={this.props.titleSize || "1.2rem"}
-                        color={this.props.titleColor || "#ffffffd9"}
-                        weight={600}
-                        lineHeight={1.5}
-                    />
+                <TitleComponent open={this.state.open} color={this.props.color} onClick={this.onClick.bind(this)} alignItems="center">
+                    {this.props.summary ??
+                        <Typography
+                            text={this.props.title || "Accordion Title"}
+                            size={this.props.titleSize || "1.2rem"}
+                            color={this.props.titleColor || "#ffffffd9"}
+                            weight={600}
+                            lineHeight={1.5}
+                        />
+                    }
                 </TitleComponent>
-                <ChildrenComponent open={this.state.open} direction="vertical">
+                <ChildrenComponent open={this.state.open} color={this.props.color} direction="vertical">
                     {this.props.children}
                 </ChildrenComponent>
             </AccordionComponent>
@@ -68,7 +70,6 @@ class Accordion extends React.Component {
     }
 
     onClick() {
-        console.log(this.state.open);
         this.setState({
             open: this.state.open ? false : true
         });

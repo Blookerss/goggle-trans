@@ -1,12 +1,13 @@
-import ky from 'ky';
-import React from 'react';
-import styled, { keyframes } from 'styled-components';
-
 import Grid from './Grid';
 import Button from './Button';
+import Toggle from './Toggle';
 import Accordion from './Accordion';
 import Typography from './Typography';
 import SpanEditable from './SpanEditable';
+
+import ky from 'ky';
+import React from 'react';
+import styled, { keyframes } from 'styled-components';
 
 import 'react-toastify/dist/ReactToastify.css';
 import { ToastContainer, toast } from 'react-toastify';
@@ -122,6 +123,9 @@ const TranslateAmount = styled.input`
 
 `;
 
+const DataController = window.$__DATA__;
+let HistoryData; DataController.getData("history").then(obj => HistoryData = obj);
+let SettingsData; DataController.getData("settings").then(obj => SettingsData = obj);
 class Translation extends React.Component {
     constructor(props) {
         super(props);
@@ -143,7 +147,7 @@ class Translation extends React.Component {
             ky.get("https://goggletrans.blookers.repl.co/api"),
             {
                 pending: 'Checking goggle trans API',
-                success: 'Translation is now available',
+                success: 'Translation is now ready',
                 error: 'Something went wrong!'
             },
             {
@@ -179,27 +183,67 @@ class Translation extends React.Component {
             });
             this.state.input = this.state.inputValue.replace(/<br>/g, '\n').replace(/<div>/g, '').replace(/<\/div>/g, '\n');
 
-            let { result, progression } = await toast.promise(
-                ky.post("https://goggletrans.blookers.repl.co/api/translate", {
-                    json: {
-                        input: this.state.input,
-                        language: 'en',
-                        translateTimes: this.state.translations,
-                        outputLanguage: this.state.automaticResult ? 'auto' : 'en'
+            let result, progression;
+            if(Tauri) {
+                let { data } = await toast.promise(
+                    Tauri.invoke('translate', {
+                        body: Tauri.http.Body.json({
+                            input: this.state.input,
+                            language: 'en',
+                            translateTimes: this.state.translations,
+                            outputLanguage: this.state.automaticResult ? 'auto' : 'en'
+                        })
+                    }),
+                    {
+                        pending: 'Translating Your Input',
+                        success: 'Translation Succeeded!',
+                        error: 'Something went wrong!'
                     },
-                    timeout: false
-                }).json(),
-                {
-                    pending: 'Translating Your Input',
-                    success: 'Translation Succeeded!',
-                    error: 'Something went wrong!'
-                },
-                {
-                    className: 'gotham',
-                    position: toast.POSITION.BOTTOM_RIGHT,
-                    theme: 'dark'
-                }
-            );
+                    {
+                        className: 'gotham',
+                        position: toast.POSITION.BOTTOM_RIGHT,
+                        theme: 'dark'
+                    }
+                );
+                result = data.result;
+                progression = data.progression;
+            } else {
+                let data = await toast.promise(
+                    ky.post("https://goggletrans.blookers.repl.co/api/translate", {
+                        json: {
+                            input: this.state.input,
+                            language: 'en',
+                            translateTimes: this.state.translations,
+                            outputLanguage: this.state.automaticResult ? 'auto' : 'en'
+                        },
+                        timeout: false
+                    }).json(),
+                    {
+                        pending: 'Translating Your Input',
+                        success: 'Translation Succeeded!',
+                        error: 'Something went wrong!'
+                    },
+                    {
+                        className: 'gotham',
+                        position: toast.POSITION.BOTTOM_RIGHT,
+                        theme: 'dark'
+                    }
+                );
+                result = data.result;
+                progression = data.progression;
+            }
+
+            if(await SettingsData.get('history.enabled')) {
+                HistoryData.add({
+                    date: Date.now(),
+                    input: this.state.input,
+                    result,
+                    language: 'en',
+                    progression,
+                    translations: this.state.translations,
+                    outputLanguage: this.state.automaticResult ? 'Automatic' : 'English'
+                });
+            }
 
             this.setState({
                 translationProgression: progression,
@@ -263,7 +307,7 @@ class Translation extends React.Component {
                         disabled={this.state.result.length === 0 || this.state.embedding}
                     />
                     <Grid direction="vertical">
-                        <Grid spacing="16px">
+                        <Grid spacing="16px" alignItems="center">
                             <Typography text={`Process Amount (${this.state.translations})`}/>
                             <TranslateAmount
                                 type="range"
@@ -273,9 +317,9 @@ class Translation extends React.Component {
                                 min="1"
                             />
                         </Grid>
-                        <Grid spacing="16px">
+                        <Grid spacing="16px" alignItems="center">
                             <Typography text="Automatic Result:"/>
-                            <Typography text="Enabled (Forced)" color="#94ff87"/>
+                            <Toggle size="small" checked={this.state.automaticResult} changed={v => this.setState({ automaticResult: v })}/>
                         </Grid>
                     </Grid>
                 </TopComponent>
@@ -305,14 +349,14 @@ class Translation extends React.Component {
                             (prog, index) => <ProgressionChild>
                                 <Typography text={`Translation ${index + 1}`}/>
                                 <InputHeaderComponent>
-                                    Input (from {prog.language[0].toUpperCase()})
+                                    Input (from {prog.language[0]?.toUpperCase()})
                                 </InputHeaderComponent>
                                 <InputResultComponent>
                                     {prog.from}
                                 </InputResultComponent>
 
                                 <InputHeaderComponent>
-                                    Result (to {prog.language[1].toUpperCase()})
+                                    Result (to {prog.language[1]?.toUpperCase()})
                                 </InputHeaderComponent>
                                 <InputResultComponent>
                                     {prog.to}

@@ -1,8 +1,0 @@
-.input,
-.result {
-    height: 52px;
-}
-
-.input:before {
-    content: "Input";
-}
