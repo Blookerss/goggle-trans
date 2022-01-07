@@ -73,11 +73,6 @@ Download the latest release [here](https://github.com/Blookerss/goggle-trans/rel
   [![Github Icon](https://img.icons8.com/fluency/32/000000/github.svg)](https://github.com/tauri-apps)
 </dl>
 <dl>
-  
-  [![JavaScript Icon](https://img.icons8.com/color/32/000000/javascript--v1.svg)](https://javascript.com)
-  [![Rust Icon](https://img.icons8.com/external-tal-revivo-shadow-tal-revivo/32/000000/external-rust-is-a-multi-paradigm-system-programming-language-logo-shadow-tal-revivo.png)](https://www.rust-lang.org)
-</dl>
-<dl>
   <a href="https://styled-components.com"><img src="https://github.com/styled-components/brand/blob/master/styled-components.svg" align="left" height="64" alt="Styled Components"/></a>
   
   [![Github Icon](https://img.icons8.com/fluency/32/000000/github.svg)](https://github.com/styled-components/styled-components)
