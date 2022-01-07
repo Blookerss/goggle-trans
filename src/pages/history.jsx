@@ -55,7 +55,7 @@ class HistoryPage extends React.Component {
             );
         }
         let history = this.state.history;
-        if(history.length == 0)
+        if(history.length === 0)
             return <App>
                 <Header text="goggle trans" icon={"/favicon.ico"} />
                 <Navigation title="Translation History">
@@ -101,7 +101,7 @@ class HistoryPage extends React.Component {
                                     </Grid>
                                 </Grid>
                                 <Accordion title="Translation Progression" color="#1D1D1D" margin="16px 0 0 0" titleSize="1rem" titleColor="#ffffffcc">
-                                    {translation.progression.map(
+                                    {translation?.progression?.map(
                                         (prog, index) => <ProgressionChild>
                                             <Typography text={`Translation ${index + 1}`}/>
                                             <InputHeaderComponent>
@@ -118,7 +118,7 @@ class HistoryPage extends React.Component {
                                                 {prog.to}
                                             </InputResultComponent>
                                         </ProgressionChild>
-                                    )}
+                                    ) || ["There's nothing here!"]}
                                 </Accordion>
                             </Accordion>
                         })}

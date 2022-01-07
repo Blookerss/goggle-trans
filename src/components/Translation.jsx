@@ -123,6 +123,117 @@ const TranslateAmount = styled.input`
 
 `;
 
+const languages = {
+    'af': 'Afrikaans',
+    'sq': 'Albanian',
+    'am': 'Amharic',
+    'ar': 'Arabic',
+    'hy': 'Armenian',
+    'az': 'Azerbaijani',
+    'eu': 'Basque',
+    'be': 'Belarusian',
+    'bn': 'Bengali',
+    'bs': 'Bosnian',
+    'bg': 'Bulgarian',
+    'ca': 'Catalan',
+    'ceb': 'Cebuano',
+    'ny': 'Chichewa',
+    'zh-CN': 'Chinese (Simplified)',
+    'zh-TW': 'Chinese (Traditional)',
+    'co': 'Corsican',
+    'hr': 'Croatian',
+    'cs': 'Czech',
+    'da': 'Danish',
+    'nl': 'Dutch',
+    'en': 'English',
+    'eo': 'Esperanto',
+    'et': 'Estonian',
+    'tl': 'Filipino',
+    'fi': 'Finnish',
+    'fr': 'French',
+    'fy': 'Frisian',
+    'gl': 'Galician',
+    'ka': 'Georgian',
+    'de': 'German',
+    'el': 'Greek',
+    'gu': 'Gujarati',
+    'ht': 'Haitian Creole',
+    'ha': 'Hausa',
+    'haw': 'Hawaiian',
+    'he': 'Hebrew',
+    'iw': 'Hebrew',
+    'hi': 'Hindi',
+    'hmn': 'Hmong',
+    'hu': 'Hungarian',
+    'is': 'Icelandic',
+    'ig': 'Igbo',
+    'id': 'Indonesian',
+    'ga': 'Irish',
+    'it': 'Italian',
+    'ja': 'Japanese',
+    'jw': 'Javanese',
+    'kn': 'Kannada',
+    'kk': 'Kazakh',
+    'km': 'Khmer',
+    'ko': 'Korean',
+    'ku': 'Kurdish (Kurmanji)',
+    'ky': 'Kyrgyz',
+    'lo': 'Lao',
+    'la': 'Latin',
+    'lv': 'Latvian',
+    'lt': 'Lithuanian',
+    'lb': 'Luxembourgish',
+    'mk': 'Macedonian',
+    'mg': 'Malagasy',
+    'ms': 'Malay',
+    'ml': 'Malayalam',
+    'mt': 'Maltese',
+    'mi': 'Maori',
+    'mr': 'Marathi',
+    'mn': 'Mongolian',
+    'my': 'Myanmar (Burmese)',
+    'ne': 'Nepali',
+    'no': 'Norwegian',
+    'ps': 'Pashto',
+    'fa': 'Persian',
+    'pl': 'Polish',
+    'pt': 'Portuguese',
+    'pa': 'Punjabi',
+    'ro': 'Romanian',
+    'ru': 'Russian',
+    'sm': 'Samoan',
+    'gd': 'Scots Gaelic',
+    'sr': 'Serbian',
+    'st': 'Sesotho',
+    'sn': 'Shona',
+    'sd': 'Sindhi',
+    'si': 'Sinhala',
+    'sk': 'Slovak',
+    'sl': 'Slovenian',
+    'so': 'Somali',
+    'es': 'Spanish',
+    'su': 'Sundanese',
+    'sw': 'Swahili',
+    'sv': 'Swedish',
+    'tg': 'Tajik',
+    'ta': 'Tamil',
+    'te': 'Telugu',
+    'th': 'Thai',
+    'tr': 'Turkish',
+    'uk': 'Ukrainian',
+    'ur': 'Urdu',
+    'uz': 'Uzbek',
+    'vi': 'Vietnamese',
+    'cy': 'Welsh',
+    'xh': 'Xhosa',
+    'yi': 'Yiddish',
+    'yo': 'Yoruba',
+    'zu': 'Zulu'
+};
+Array.prototype.random = function() {
+    return this[Math.floor((Math.random() * this.length))];
+};
+
 const DataController = window.$__DATA__;
 let HistoryData; DataController.getData("history").then(obj => HistoryData = obj);
 let SettingsData; DataController.getData("settings").then(obj => SettingsData = obj);
@@ -143,7 +254,7 @@ class Translation extends React.Component {
     }
 
     async componentDidMount() {
-        await toast.promise(
+        /*await toast.promise(
             ky.get("https://goggletrans.blookers.repl.co/api"),
             {
                 pending: 'Checking goggle trans API',
@@ -155,7 +266,7 @@ class Translation extends React.Component {
                 position: toast.POSITION.BOTTOM_RIGHT,
                 theme: 'dark'
             }
-        );
+        );*/
         this.setState({
             enabled: true
         });
@@ -174,6 +285,128 @@ class Translation extends React.Component {
         });
     }
 
+    _extract(key, res) {
+        var re = new RegExp(`"${key}":".*?"`);
+        var result = re.exec(res.data);
+        if (result !== null) {
+            return result[0].replace(`"${key}":"`, '').slice(0, -1);
+        }
+        return '';
+    }
+
+    _translate(options) {
+        return Tauri.invoke('web_request', {
+            url: 'https://translate.google.com',
+            body: Tauri.http.Body.json({}),
+            method: 'GET',
+            query: {},
+            headers: {},
+            responseType: 2
+        }).then(response => {
+            return {
+                'rpcids': 'MkEWBc',
+                'f.sid': this._extract('FdrFJe', response),
+                'bl': this._extract('cfb2h', response),
+                'hl': 'en-US',
+                'soc-app': '1',
+                'soc-platform': '1',
+                'soc-device': '1',
+                '_reqid': Math.floor(1000 + (Math.random() * 9000)).toString(),
+                'rt': 'c'
+            };
+        }).then(data => {
+            return Tauri.invoke('web_request', {
+                url: `https://translate.google.com/_/TranslateWebserverUi/data/batchexecute`,
+                body: Tauri.http.Body.text(
+                    'f.req=' + encodeURIComponent(
+                        JSON.stringify([
+                            [['MkEWBc', JSON.stringify([[options.input, options.from, options.to, true], [null]]), null, 'generic']]
+                        ])
+                    ) + '&'
+                ),
+                method: 'POST',
+                query: data,
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8'
+                },
+                responseType: 2
+            }).then(response => {
+                let json = response.data.slice(6);
+                let result = {
+                    text: '',
+                    pronunciation: '',
+                    from: {
+                        language: {
+                            didYouMean: false,
+                            iso: ''
+                        },
+                        text: {
+                            autoCorrected: false,
+                            value: '',
+                            didYouMean: false
+                        }
+                    },
+                    raw: ''
+                };
+                let length = '';
+
+                try {
+                    length = /^\d+/.exec(json)[0];
+                    json = JSON.parse(json.slice(length.length, parseInt(length, 10) + length.length));
+                    json = JSON.parse(json[0][2]);
+                    result.raw = json;
+                } catch (err) {
+                    console.log(err);
+                    return result;
+                }
+
+                if (json[1][0][0][5] === undefined || json[1][0][0][5] === null) {
+                    // translation not found, could be a hyperlink or gender-specific translation?
+                    result.text = json[1][0][0][0];
+                } else {
+                    result.text = json[1][0][0][5]
+                        .map(function (obj) {
+                            return obj[0];
+                        })
+                        .filter(Boolean)
+                        // Google api seems to split text per sentences by <dot><space>
+                        // So we join text back with spaces.
+                        // See: https://github.com/vitalets/google-translate-api/issues/73
+                        .join(' ');
+                }
+                result.pronunciation = json[1][0][0][1];
+
+                // From language
+                if (json[0] && json[0][1] && json[0][1][1]) {
+                    result.from.language.didYouMean = true;
+                    result.from.language.iso = json[0][1][1][0];
+                } else if (json[1][3] === 'auto') {
+                    result.from.language.iso = json[2];
+                } else {
+                    result.from.language.iso = json[1][3];
+                }
+
+                // Did you mean & autocorrect
+                if (json[0] && json[0][1] && json[0][1][0]) {
+                    var str = json[0][1][0][0][1];
+
+                    str = str.replace(/<b>(<i>)?/g, '[');
+                    str = str.replace(/(<\/i>)?<\/b>/g, ']');
+
+                    result.from.text.value = str;
+
+                    if (json[0][1][0][2] === 1) {
+                        result.from.text.autoCorrected = true;
+                    } else {
+                        result.from.text.didYouMean = true;
+                    }
+                }
+
+                return result;
+            });
+        });
+    }
+
     async translate() {
         if(!this.state.translating) {
             this.setState({
@@ -183,16 +416,40 @@ class Translation extends React.Component {
             });
             this.state.input = this.state.inputValue.replace(/<br>/g, '\n').replace(/<div>/g, '').replace(/<\/div>/g, '\n');
 
-            let result, progression;
+            let result = this.state.input, progression = [];
             if(Tauri) {
-                let { data } = await toast.promise(
-                    Tauri.invoke('translate', {
-                        body: Tauri.http.Body.json({
-                            input: this.state.input,
-                            language: 'en',
-                            translateTimes: this.state.translations,
-                            outputLanguage: this.state.automaticResult ? 'auto' : 'en'
-                        })
+                await toast.promise(
+                    new Promise(async(resolve, reject) => {
+                        for (let i = 0; i < this.state.translations; i++) {
+                            let langFrom = Object.keys(languages).random(), langTo = Object.keys(languages).random();
+                            let previous = result.toString();
+                            let data = await this._translate({
+                                input: result,
+                                from: langFrom,
+                                to: langTo
+                            });
+                            result = data.text;
+                            progression.push({
+                                language: [langFrom, langFrom],
+                                from: previous,
+                                to: data.text
+                            });
+                        }
+
+                        let langFrom = 'auto', langTo = 'en';
+                        let previous = result.toString();
+                        let data = await this._translate({
+                            input: result,
+                            from: langFrom,
+                            to: langTo
+                        });
+                        result = data.text;
+                        progression.push({
+                            language: [langFrom, langFrom],
+                            from: previous,
+                            to: data.text
+                        });
+                        resolve();
                     }),
                     {
                         pending: 'Translating Your Input',
@@ -205,8 +462,6 @@ class Translation extends React.Component {
                         theme: 'dark'
                     }
                 );
-                result = data.result;
-                progression = data.progression;
             } else {
                 let data = await toast.promise(
                     ky.post("https://goggletrans.blookers.repl.co/api/translate", {
@@ -311,6 +566,7 @@ class Translation extends React.Component {
                             <Typography text={`Process Amount (${this.state.translations})`}/>
                             <TranslateAmount
                                 type="range"
+                                disabled={this.state.translating}
                                 onChange={this.onTransChange.bind(this)}
                                 value={this.state.translations}
                                 max="10"
