@@ -53,7 +53,12 @@ Download the latest release [here](https://github.com/Blookerss/goggle-trans/rel
 <dl>
   <img src="https://img.icons8.com/fluency/48/000000/link.png" align="left" width="24" height="24"/>
 
-  [Website](https://goggletrans.voxelified.com)
+  <s>Website</s>
+</dl>
+<dl>
+  <img src="https://img.icons8.com/fluency/48/000000/documents.png" align="left" width="24" height="24"/>
+  
+  [Documentation](https://docs.voxelified.com/goggle-trans)
 </dl>
 <dl>
   <img src="./public/favicon.ico" align="left" width="24" height="24"/>
