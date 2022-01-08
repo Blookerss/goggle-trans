@@ -8,11 +8,12 @@
 
 ### ‼️ goggle trans is considered beta software and is not fully user friendly, proceed with extinguishers!
 
+
 <br/>
 
 ## ![Install Image](https://img.icons8.com/fluency/24/000000/software-installer.png) Installation
-
-All installer files can be found through the releases page.<br/>
+A full installation guide can be found [here](https://docs.voxelified.com/goggle-trans#installation-101).<br/>
+All installer files can be found through the [releases](https://github.com/Blookerss/goggle-trans/releases) page.<br/>
 Download the latest release [here](https://github.com/Blookerss/goggle-trans/releases/latest).
 <dl>
   <img src="https://img.icons8.com/fluency/000000/windows-10.svg" align="left" width="32" height="32"/>
