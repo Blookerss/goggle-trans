@@ -20,7 +20,7 @@ Download the latest release [here](https://github.com/Blookerss/goggle-trans/rel
   
   ## Microsoft Windows (msi)
   
-  > Windows is fully supported and available.
+  > Windows is fully supported and [available](https://docs.voxelified.com/goggle-trans/installation/microsoft-windows).
   
   > You may need to install the WebView2 Runtime during installation on **Windows 7/8/10**,
   > this comes preinstalled on **Windows 11**.
