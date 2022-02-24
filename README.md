@@ -88,3 +88,6 @@ Download the latest release [here](https://github.com/Blookerss/goggle-trans/rel
   
   [![Github Icon](https://img.icons8.com/fluency/32/000000/github.svg)](https://github.com/fastify/fastify)
 </dl>
+<br/>
+
+[![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2FBlookerss%2Fgoggle-trans.svg?type=large)](https://app.fossa.com/projects/git%2Bgithub.com%2FBlookerss%2Fgoggle-trans?ref=badge_large)
