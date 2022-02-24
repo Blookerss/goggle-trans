@@ -11,7 +11,8 @@
 
 <br/>
 
-## ![Install Image](https://img.icons8.com/fluency/24/000000/software-installer.png) Installation
+## ![Install Image](https://img.icons8.com/fluency/24/000000/software-installer.png) [![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2FBlookerss%2Fgoggle-trans.svg?type=shield)](https://app.fossa.com/projects/git%2Bgithub.com%2FBlookerss%2Fgoggle-trans?ref=badge_shield)
+Installation
 A full installation guide can be found [here](https://docs.voxelified.com/goggle-trans#installation-101).<br/>
 All installer files can be found through the [releases](https://github.com/Blookerss/goggle-trans/releases) page.<br/>
 Download the latest release [here](https://github.com/Blookerss/goggle-trans/releases/latest).
@@ -88,3 +89,7 @@ Download the latest release [here](https://github.com/Blookerss/goggle-trans/rel
   
   [![Github Icon](https://img.icons8.com/fluency/32/000000/github.svg)](https://github.com/fastify/fastify)
 </dl>
+
+
+## License
+[![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2FBlookerss%2Fgoggle-trans.svg?type=large)](https://app.fossa.com/projects/git%2Bgithub.com%2FBlookerss%2Fgoggle-trans?ref=badge_large)
