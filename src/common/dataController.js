@@ -1,4 +1,7 @@
-const { fs, path } = window.__TAURI__ || {};
+import { path } from '@tauri-apps/api';
+
+import Util from './util';
+
 const dataDefaults = {
     history: [],
     settings: {
@@ -22,9 +25,9 @@ class DataObject {
     }
 
     static async build(dataController, dataName) {
-        return new Promise(async(resolve, reject) => {
+        return new Promise(async(resolve) => {
             let cache = await DataObject.getData(dataController, dataName);
-            let dataPath = dataController.dataPath + `${dataName}.json`;
+            let dataPath = `${dataController.dataPath}/${dataName}.json`;
             resolve(new DataObject(dataController, dataName, dataPath, cache));
         });
     }
@@ -67,13 +70,13 @@ class DataObject {
     }
 
     static async getData(dataController, dataName) {
-        return new Promise(async(resolve, reject) => {
-            let dataPath = dataController.dataPath + `${dataName}.json`;
-            let cache = fs ? JSON.parse(await fs.readTextFile(
-                dataPath
-            )) : JSON.parse(localStorage.getItem(dataName));
-            resolve(cache);
-        });
+        const dataPath = `${dataController.dataPath}/${dataName}.json`;
+        if(!await Util.fileExists(dataPath))
+            return null;
+        const cache = await Util.readTextFile(
+            dataPath
+        );
+        return JSON.parse(cache);
     }
 
     set(path, newValue) {
@@ -90,31 +93,33 @@ class DataObject {
     }
 
     async save() {
-        if (fs) {
-            let dir = await fs.readDir(this.dataController.dataPath).catch(e => null);
-            if(!dir)
-                await fs.createDir(this.dataController.dataPath); 
-            fs.writeFile({
-                path: this.dataPath,
-                contents: JSON.stringify(this.cache)
-            });
-        } else
-            localStorage.setItem(this.dataName, JSON.stringify(this.cache));
+        if(!await Util.fileExists(this.dataController.dataPath))
+            await Util.createDir(this.dataController.dataPath); 
+        Util.writeFile(
+            this.dataPath,
+            JSON.stringify(this.cache)
+        );
         return this;
     }
 }
 
-export default class DataController {
+export class DataController {
     constructor(dataPath) {
         this.dataPath = dataPath;
     }
 
     static async build() {
-        let dataPath = path ? await path.appDir() : "";
-        return new DataController(dataPath);
+        return new Promise(async(resolve, reject) => {
+            const dataPath = path ? await path.appDir() : "";
+            if(!await Util.fileExists(dataPath))
+                await Util.createDir(dataPath);
+            resolve(new DataController(dataPath.replace(/\/+|\\+/g, "/")));
+        });
     }
 
     getData(name) {
         return DataObject.build(this, name);
     }
-}
+};
+
+export default await DataController.build();
