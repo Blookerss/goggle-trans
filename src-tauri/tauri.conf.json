@@ -58,28 +58,16 @@
                 "all": true
             },
             "window": {
-                "all": true,
-                "create": true
+                "all": true
             },
             "fs": {
-                "all": true,
-                "readTextFile": true,
-                "readBinaryFile": true,
-                "writeFile": true,
-                "writeBinaryFile": true,
-                "readDir": true,
-                "copyFile": true,
-                "createDir": true,
-                "removeDir": true,
-                "removeFile": true,
-                "renameFile": true
+                "all": true
             },
             "path": {
                 "all": true
             },
             "http": {
-                "all": true,
-                "request": true
+                "all": true
             }
         },
         "windows": [{

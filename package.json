@@ -2,49 +2,33 @@
     "name": "goggle-trans",
     "version": "2.2.1",
     "description": "translation made 1000% funnier",
-    "main": "index.js",
     "author": "Blookers",
     "license": "MIT",
     "private": true,
     "scripts": {
         "web": "node server.js",
-        "dev": "start react-scripts start && tauri dev",
-        "start": "react-scripts start",
-        "build": "react-scripts build",
-        "bundle": "react-scripts build && tauri build",
-        "test": "react-scripts test",
-        "eject": "react-scripts eject"
+        "dev": "vite-tauri dev",
+        "start": "vite-tauri",
+        "build": "vite-tauri build",
+        "serve": "vite preview"
     },
     "devDependencies": {
-        "@tauri-apps/cli": "latest"
+        "@tauri-apps/cli": "^1.0.0-rc.7",
+        "@tauri-apps/cli-win32-x64-msvc": "^1.0.0-rc.7",
+        "@vitejs/plugin-react": "^1.2.0",
+        "vite": "^2.8.6",
+        "vite-plugin-tauri": "^1.1.2"
     },
     "dependencies": {
-        "@tauri-apps/api": "latest",
-        "fastify": "latest",
+        "@tauri-apps/api": "^1.0.0-rc.2",
+        "fastify": "^3.27.2",
         "fastify-static": "latest",
         "history": "latest",
-        "ky": "latest",
+        "ky": "^0.29.0",
         "path": "latest",
         "react": "latest",
         "react-dom": "latest",
         "react-router-dom": "latest",
-        "react-scripts": "latest",
-        "react-toastify": "latest",
-        "styled-components": "latest"
-    },
-    "eslintConfig": {
-        "extends": "react-app"
-    },
-    "browserslist": {
-        "production": [
-            ">0.2%",
-            "not dead",
-            "not op_mini all"
-        ],
-        "development": [
-            "last 1 chrome version",
-            "last 1 firefox version",
-            "last 1 safari version"
-        ]
+        "react-toastify": "^8.2.0"
     }
 }

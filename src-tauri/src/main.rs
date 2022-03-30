@@ -28,6 +28,7 @@ async fn web_request(
     let method = &method;
     let client = ClientBuilder::new().max_redirections(3).build().unwrap();
     let mut request_builder = HttpRequestBuilder::new(method, url)
+    .unwrap()
     .query(query)
     .headers(headers);
 
@@ -52,6 +53,7 @@ async fn translate(body: Body) -> Result<ResponseData, String> {
         .build()
         .unwrap();
     let request_builder = HttpRequestBuilder::new("POST", "https://goggletrans.blookers.repl.co/api/translate")
+    .unwrap()
     .body(body);
 
     let request = request_builder.response_type(ResponseType::Json);
