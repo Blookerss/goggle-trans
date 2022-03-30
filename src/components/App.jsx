@@ -1,20 +1,13 @@
 import React from 'react';
-import styled from 'styled-components';
 
-import Grid from './Grid';
+import App from '/voxeliface/components/App/Tauri';
 
-const AppComponent = styled(Grid)`
-    
-`;
-
-class App extends React.Component {
+export default class App extends React.Component {
     render() {
         return (
-            <AppComponent direction="vertical">
-                {this.props.children}
-            </AppComponent>
+            <App
+                title="goggle trans"
+            {...this.props}/>
         );
     }
-}
-
-export default App;
+};
