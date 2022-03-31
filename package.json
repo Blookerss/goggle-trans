@@ -20,6 +20,7 @@
         "vite-plugin-tauri": "^1.1.2"
     },
     "dependencies": {
+        "@stitches/react": "^1.2.7",
         "@tauri-apps/api": "^1.0.0-rc.2",
         "fastify": "^3.27.2",
         "fastify-static": "latest",
@@ -27,8 +28,9 @@
         "ky": "^0.29.0",
         "path": "latest",
         "react": "latest",
+        "react-bootstrap-icons": "^1.8.1",
         "react-dom": "latest",
-        "react-router-dom": "latest",
-        "react-toastify": "^8.2.0"
+        "react-hot-toast": "^2.2.0",
+        "react-router-dom": "latest"
     }
 }
