@@ -1,6 +1,9 @@
 import React from 'react';
+import { styled } from '@stitches/react';
 
-class SpanEditable extends React.Component {
+const StyledSpan = styled('span');
+
+export default class SpanEditable extends React.Component {
     constructor(props) {
         super(props);
         this.ref = React.createRef();
@@ -8,15 +11,16 @@ class SpanEditable extends React.Component {
     
     render() {
         return (
-            <span
+            <StyledSpan
                 ref={this.ref}
                 onBlur={this.emitChange.bind(this)}
                 onInput={this.emitChange.bind(this)}
                 contentEditable
+                suppressContentEditableWarning={true}
                 {...this.props}
             >
                 {this.props.html}
-            </span>
+            </StyledSpan>
         );
     }
 
@@ -41,6 +45,4 @@ class SpanEditable extends React.Component {
         }
         this.lastHtml = html;
     }
-}
-
-export default SpanEditable;
+};

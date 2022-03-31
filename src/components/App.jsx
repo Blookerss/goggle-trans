@@ -1,11 +1,11 @@
 import React from 'react';
 
-import App from '/voxeliface/components/App/Tauri';
+import DefaultApp from '/voxeliface/components/App/Tauri';
 
 export default class App extends React.Component {
     render() {
         return (
-            <App
+            <DefaultApp
                 title="goggle trans"
             {...this.props}/>
         );
