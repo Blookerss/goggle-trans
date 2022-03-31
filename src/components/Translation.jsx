@@ -1,127 +1,70 @@
-import Grid from './Grid';
-import Button from './Button';
-import Toggle from './Toggle';
-import Accordion from './Accordion';
-import Typography from './Typography';
-import SpanEditable from './SpanEditable';
-
 import ky from 'ky';
 import React from 'react';
-import styled, { keyframes } from 'styled-components';
+import { http, clipboard } from '@tauri-apps/api';
+import toast, { Toaster } from 'react-hot-toast';
+import { styled, keyframes } from '@stitches/react';
+import { Translate, CloudUploadFill } from 'react-bootstrap-icons';
 
-import 'react-toastify/dist/ReactToastify.css';
-import { ToastContainer, toast } from 'react-toastify';
+import Grid from '/voxeliface/components/Grid';
+import Button from '/voxeliface/components/Button';
+import Toggle from './Toggle';
+import Divider from '/voxeliface/components/Divider';
+import Accordion from './Accordion';
+import Typography from '/voxeliface/components/Typography';
+import SpanEditable from './SpanEditable';
 
-const Tauri = window.__TAURI__;
+const StyledInput = styled('div', {
+    width: '100%'
+});
 
-const MainComponent = styled(Grid)`
-    width: 95%;
-    height: 80%;
-    display: flex;
-    border-radius: 0 0 8px 8px;
-    background-color: #222222;
-`;
-
-const TopComponent = styled(Grid)`
-    width: 100%;
-    padding: 8px;
-    border-radius: 8px 8px 0 0;
-    background-color: #2c2c2c;
-`;
-
-const BottomComponent = styled(Grid)`
-    width: 100%;
-    padding: 8px;
-`;
-
-const InputComponent = styled.div`
-    width: 100%;
-`;
-
-const InputHeaderAnim = keyframes`
-    0% {
-        color: #ffffffcc;
+const InputHeaderAnim = keyframes({
+    '0%': {
+        color: '#ffffffcc'
+    },
+    '50%': {
+        color: '#ffffff99'
+    },
+    '100%': {
+        color: '#ffffffcc'
     }
-    50% {
-        color: #ffffff99;
+});
+
+const StyledInputHeader = styled('p', {
+    color: '#ffffffcc',
+    margin: '12px 0 0 12px',
+
+    '&:disabled': {
+        animation: `${InputHeaderAnim} 2s linear infinite`
     }
-    100% {
-        color: #ffffffcc;
+});
+
+const InputTextAreaAnim = keyframes({
+    '0%': {
+        opacity: 1,
+    },
+    '50%': {
+        opacity: 0,
+    },
+    '100%': {
+        opacity: 1
     }
-`;
+});
 
-const InputHeaderComponent = styled.p`
-    color: #ffffffcc;
-    margin: 12px 0 0 12px;
+const StyledInputResult = styled('p', {
+    width: '100%',
+    color: '#fff',
+    margin: '4px 0 0 12px',
+    fontSize: '1rem',
+    fontWeight: 500,
+    background: 'none',
+    whiteSpace: 'pre-line'
+});
 
-    &:disabled {
-        animation: ${InputHeaderAnim} 2s linear infinite;
-    }
-`;
-
-const InputTextAreaAnim = keyframes`
-    0% {
-        opacity: 1;
-    }
-    50% {
-        opacity: 0;
-    }
-    100% {
-        opacity: 1;
-    }
-`;
-
-const InputTextAreaComponent = styled(SpanEditable)`
-    width: 100%;
-    color: #ffffff;
-    cursor: text;
-    margin: 4px 0 0 12px;
-    outline: none;
-    display: inline-block;
-    font-size: 1rem;
-    background: none;
-    font-weight: 500;
-    font-family: HCo Gotham SSm, Helvetica Neue, Helvetica, Arial, Lucida Grande, sans-serif;
-
-    &:disabled {
-        cursor: not-allowed;
-    }
-
-    &:empty:before {
-        color: #ffffff4d;
-        content: attr(placeholder);
-    }
-
-    &:empty:focus:before {
-        content: "";
-        animation: ${InputTextAreaAnim} 1s steps(1, end) infinite;
-        border-left: 1px solid white;
-    }
-`;
-
-const InputResultComponent = styled.p`
-    width: 100%;
-    color: #ffffff;
-    margin: 4px 0 0 12px;
-    font-size: 1rem;
-    background: none;
-    font-weight: 500;
-    white-space: pre-line;
-
-    &.nores {
-        color: #ffffff4d;
-    }
-`;
-
-const ProgressionChild = styled.div`
-    border-bottom: 1px solid #ffffff2b;
-    padding: 0 0 16px 0;
-    margin: 0 0 32px 16px;
-`;
-
-const TranslateAmount = styled.input`
-
-`;
+const StyledProgress = styled('div', {
+    margin: '0 0 32px 16px',
+    padding: '0 0 16px 0',
+    borderBottom: '1px solid #ffffff2b'
+});
 
 const languages = {
     'af': 'Afrikaans',
@@ -234,16 +177,18 @@ Array.prototype.random = function() {
     return this[Math.floor((Math.random() * this.length))];
 };
 
-const DataController = window.$__DATA__;
-let HistoryData; DataController.getData("history").then(obj => HistoryData = obj);
-let SettingsData; DataController.getData("settings").then(obj => SettingsData = obj);
-class Translation extends React.Component {
+import Util from '/src/common/util';
+import DataController from '/src/common/dataController';
+const SettingsData = await DataController.getData("settings");
+const HistoryData = await DataController.getData("history");
+
+export default class Translation extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
             input: '',
             result: '',
-            enabled: false,
+            enabled: true,
             embedding: false,
             inputValue: '',
             translating: false,
@@ -251,26 +196,6 @@ class Translation extends React.Component {
             automaticResult: true,
             translationProgression: []
         };
-    }
-
-    async componentDidMount() {
-        /*await toast.promise(
-            ky.get("https://goggletrans.blookers.repl.co/api"),
-            {
-                pending: 'Checking goggle trans API',
-                success: 'Translation is now ready',
-                error: 'Something went wrong!'
-            },
-            {
-                className: 'gotham',
-                position: toast.POSITION.BOTTOM_RIGHT,
-                theme: 'dark'
-            }
-        );*/
-        this.setState({
-            enabled: true
-        });
-        this.forceUpdate();
     }
 
     onInputChange(evt) {
@@ -285,9 +210,9 @@ class Translation extends React.Component {
         });
     }
 
-    _extract(key, res) {
+    _extract(key, data) {
         var re = new RegExp(`"${key}":".*?"`);
-        var result = re.exec(res.data);
+        var result = re.exec(data);
         if (result !== null) {
             return result[0].replace(`"${key}":"`, '').slice(0, -1);
         }
@@ -295,29 +220,21 @@ class Translation extends React.Component {
     }
 
     _translate(options) {
-        return Tauri.invoke('web_request', {
-            url: 'https://translate.google.com',
-            body: Tauri.http.Body.json({}),
-            method: 'GET',
-            query: {},
-            headers: {},
-            responseType: 2
-        }).then(response => {
-            return {
-                'rpcids': 'MkEWBc',
-                'f.sid': this._extract('FdrFJe', response),
-                'bl': this._extract('cfb2h', response),
-                'hl': 'en-US',
-                'soc-app': '1',
-                'soc-platform': '1',
-                'soc-device': '1',
-                '_reqid': Math.floor(1000 + (Math.random() * 9000)).toString(),
-                'rt': 'c'
-            };
-        }).then(data => {
-            return Tauri.invoke('web_request', {
-                url: `https://translate.google.com/_/TranslateWebserverUi/data/batchexecute`,
-                body: Tauri.http.Body.text(
+        return Util.makeRequest('https://translate.google.com', {
+            responseType: 'Text'
+        }).then(data => ({
+            'rpcids': 'MkEWBc',
+            'f.sid': this._extract('FdrFJe', data),
+            'bl': this._extract('cfb2h', data),
+            'hl': 'en-US',
+            'soc-app': '1',
+            'soc-platform': '1',
+            'soc-device': '1',
+            '_reqid': Math.floor(1000 + (Math.random() * 9000)).toString(),
+            'rt': 'c'
+        })).then(data =>
+            Util.makeRequest('https://translate.google.com/_/TranslateWebserverUi/data/batchexecute', {
+                body: http.Body.text(
                     'f.req=' + encodeURIComponent(
                         JSON.stringify([
                             [['MkEWBc', JSON.stringify([[options.input, options.from, options.to, true], [null]]), null, 'generic']]
@@ -329,10 +246,10 @@ class Translation extends React.Component {
                 headers: {
                     'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8'
                 },
-                responseType: 2
-            }).then(response => {
-                let json = response.data.slice(6);
-                let result = {
+                responseType: 'Text'
+            }).then(data => {
+                let json = data.slice(6);
+                const result = {
                     text: '',
                     pronunciation: '',
                     from: {
@@ -360,33 +277,26 @@ class Translation extends React.Component {
                     return result;
                 }
 
-                if (json[1][0][0][5] === undefined || json[1][0][0][5] === null) {
-                    // translation not found, could be a hyperlink or gender-specific translation?
+                if (json[1][0][0][5] === undefined || json[1][0][0][5] === null)
                     result.text = json[1][0][0][0];
-                } else {
+                else {
                     result.text = json[1][0][0][5]
                         .map(function (obj) {
                             return obj[0];
                         })
                         .filter(Boolean)
-                        // Google api seems to split text per sentences by <dot><space>
-                        // So we join text back with spaces.
-                        // See: https://github.com/vitalets/google-translate-api/issues/73
                         .join(' ');
                 }
                 result.pronunciation = json[1][0][0][1];
 
-                // From language
                 if (json[0] && json[0][1] && json[0][1][1]) {
                     result.from.language.didYouMean = true;
                     result.from.language.iso = json[0][1][1][0];
-                } else if (json[1][3] === 'auto') {
+                } else if (json[1][3] === 'auto')
                     result.from.language.iso = json[2];
-                } else {
+                else
                     result.from.language.iso = json[1][3];
-                }
 
-                // Did you mean & autocorrect
                 if (json[0] && json[0][1] && json[0][1][0]) {
                     var str = json[0][1][0][0][1];
 
@@ -403,8 +313,8 @@ class Translation extends React.Component {
                 }
 
                 return result;
-            });
-        });
+            })
+        );
     }
 
     async translate() {
@@ -417,28 +327,12 @@ class Translation extends React.Component {
             this.state.input = this.state.inputValue.replace(/<br>/g, '\n').replace(/<div>/g, '').replace(/<\/div>/g, '\n');
 
             let result = this.state.input, progression = [];
-            if(Tauri) {
-                await toast.promise(
-                    new Promise(async(resolve, reject) => {
-                        for (let i = 0; i < this.state.translations; i++) {
-                            let langFrom = Object.keys(languages).random(), langTo = Object.keys(languages).random();
-                            let previous = result.toString();
-                            let data = await this._translate({
-                                input: result,
-                                from: langFrom,
-                                to: langTo
-                            });
-                            result = data.text;
-                            progression.push({
-                                language: [langFrom, langFrom],
-                                from: previous,
-                                to: data.text
-                            });
-                        }
-
-                        let langFrom = 'auto', langTo = 'en';
-                        let previous = result.toString();
-                        let data = await this._translate({
+            await toast.promise(
+                new Promise(async(resolve) => {
+                    for (let i = 0; i < this.state.translations; i++) {
+                        const langFrom = Object.keys(languages).random(), langTo = Object.keys(languages).random();
+                        const previous = result.toString();
+                        const data = await this._translate({
                             input: result,
                             from: langFrom,
                             to: langTo
@@ -449,44 +343,34 @@ class Translation extends React.Component {
                             from: previous,
                             to: data.text
                         });
-                        resolve();
-                    }),
-                    {
-                        pending: 'Translating Your Input',
-                        success: 'Translation Succeeded!',
-                        error: 'Something went wrong!'
-                    },
-                    {
-                        className: 'gotham',
-                        position: toast.POSITION.BOTTOM_RIGHT,
-                        theme: 'dark'
                     }
-                );
-            } else {
-                let data = await toast.promise(
-                    ky.post("https://goggletrans.blookers.repl.co/api/translate", {
-                        json: {
-                            input: this.state.input,
-                            language: 'en',
-                            translateTimes: this.state.translations,
-                            outputLanguage: this.state.automaticResult ? 'auto' : 'en'
-                        },
-                        timeout: false
-                    }).json(),
-                    {
-                        pending: 'Translating Your Input',
-                        success: 'Translation Succeeded!',
-                        error: 'Something went wrong!'
-                    },
-                    {
-                        className: 'gotham',
-                        position: toast.POSITION.BOTTOM_RIGHT,
-                        theme: 'dark'
-                    }
-                );
-                result = data.result;
-                progression = data.progression;
-            }
+
+                    const langFrom = 'auto', langTo = 'en';
+                    const previous = result.toString();
+                    const data = await this._translate({
+                        input: result,
+                        from: langFrom,
+                        to: langTo
+                    });
+                    result = data.text;
+                    progression.push({
+                        language: [langFrom, langFrom],
+                        from: previous,
+                        to: data.text
+                    });
+
+                    resolve();
+                }),
+                {
+                    loading: 'Translating Your Input',
+                    success: 'Translation Succeeded!',
+                    error: 'Something went wrong!'
+                },
+                {
+                    className: 'gotham',
+                    position: 'bottom-right'
+                }
+            );
 
             if(await SettingsData.get('history.enabled')) {
                 HistoryData.add({
@@ -522,22 +406,18 @@ class Translation extends React.Component {
                 timeout: false
             }).json(),
             {
-                pending: 'Embedding Translation',
+                loading: 'Embedding Translation',
                 success: 'Embed Link copied to clipboard!',
                 error: 'Something went wrong!'
             },
             {
                 className: 'gotham',
-                position: toast.POSITION.BOTTOM_RIGHT,
-                theme: 'dark'
+                position: 'bottom-right'
             }
         );
 
-        let embedLink = `https://goggletrans.blookers.repl.co/embed/${id}`;
-        if (Tauri)
-            await Tauri.clipboard.writeText(embedLink);
-        else
-            navigator.clipboard.writeText(embedLink);
+        const embedLink = `https://goggletrans.blookers.repl.co/embed/${id}`;
+        await clipboard.writeText(embedLink);
 
         this.setState({
             embedding: false
@@ -546,25 +426,45 @@ class Translation extends React.Component {
 
     render() {
         return (
-            <MainComponent direction="vertical">
-                <TopComponent spacing="16px" alignItems="center">
+            <Grid width="95%" background="#222222" direction="vertical" css={{
+                minHeight: '80%',
+                borderRadius: '0 0 8px 8px'
+            }}>
+                <Grid width="100%" padding={8} spacing="16px" alignItems="center" css={{
+                    borderRadius: '8px 8px 0 0',
+                    background: '#2c2c2c'
+                }}>
                     <Button
-                        text="Translate"
-                        icon="bi bi-translate"
                         onClick={this.translate.bind(this)}
                         disabled={this.state.enabled && (this.state.inputValue.length === 0 || this.state.translating)}
-                    />
+                        css={{
+                            height: '100%',
+                            padding: '0 1rem',
+                            fontSize: '.9rem'
+                        }}
+                    >
+                        <Translate/>
+                        Translate
+                    </Button>
                     <Button
-                        text="Embed"
-                        icon="bi bi-cloud-upload-fill"
                         theme="tertiary"
                         onClick={this.embed.bind(this)}
                         disabled={this.state.result.length === 0 || this.state.embedding}
-                    />
-                    <Grid direction="vertical">
+                        css={{
+                            height: '100%',
+                            padding: '0 1rem',
+                            fontSize: '.9rem'
+                        }}
+                    >
+                        <CloudUploadFill/>
+                        Embed
+                    </Button>
+                    <Grid direction="vertical" css={{
+                        marginLeft: 'auto'
+                    }}>
                         <Grid spacing="16px" alignItems="center">
                             <Typography text={`Process Amount (${this.state.translations})`}/>
-                            <TranslateAmount
+                            <input
                                 type="range"
                                 disabled={this.state.translating}
                                 onChange={this.onTransChange.bind(this)}
@@ -578,53 +478,81 @@ class Translation extends React.Component {
                             <Toggle size="small" checked={this.state.automaticResult} changed={v => this.setState({ automaticResult: v })}/>
                         </Grid>
                     </Grid>
-                </TopComponent>
-                <BottomComponent direction="vertical">
-                    <InputComponent>
-                        <InputHeaderComponent>
+                </Grid>
+                <Grid width="100%" padding={8} direction="vertical">
+                    <StyledInput>
+                        <StyledInputHeader>
                             Input
-                        </InputHeaderComponent>
-                        <InputTextAreaComponent
+                        </StyledInputHeader>
+                        <SpanEditable
                             contentEditable={!this.state.translating}
                             placeholder="Type your translation input here!"
                             onChange={this.onInputChange.bind(this)}
                             html={this.state.inputValue}
                             role="textbox"
+                            css={{
+                                width: '100%',
+                                color: '#fff',
+                                cursor: 'text',
+                                margin: '4px 0 0 12px',
+                                outline: 'none',
+                                display: 'inline-block',
+                                fontSize: '1rem',
+                                fontWeight: 500,
+                                background: 'none',
+                                fontFamily: 'Gotham',
+
+                                '&:disabled': {
+                                    cursor: 'not-allowed'
+                                },
+
+                                '&:empty:before': {
+                                    color: '#ffffff4d',
+                                    content: 'attr(placeholder)'
+                                },
+
+                                '&:empty:focus:before': {
+                                    content: "",
+                                    animation: `${InputTextAreaAnim} 1s steps(1, end) infinite`,
+                                    borderLeft: '1px solid #fff'
+                                }
+                            }}
                         />
-                    </InputComponent>
-                    <InputComponent>
-                        <InputHeaderComponent disabled={this.state.translating}>
+                    </StyledInput>
+                    <Divider width="100%" margin="1rem -8px 8px"/>
+                    <StyledInput>
+                        <StyledInputHeader disabled={this.state.translating}>
                             Result
-                        </InputHeaderComponent>
-                        <InputResultComponent className={this.state.result.length === 0 ? "nores" : ""}>
-                            {this.state.result || "The Translation Result will appear here."}
-                        </InputResultComponent>
-                    </InputComponent>
+                        </StyledInputHeader>
+                        <StyledInputResult css={{
+                            color: this.state.result.length === 0 ? '#ffffff4d' : undefined
+                        }}>
+                            {this.state.result || "Translation"}
+                        </StyledInputResult>
+                    </StyledInput>
                     <Accordion title="Translation Progression" margin="16px 0 0 0" titleSize="1rem" titleColor="#ffffffcc">
                         {this.state.translationProgression.map(
-                            (prog, index) => <ProgressionChild>
+                            (prog, index) => <StyledProgress key={index}>
                                 <Typography text={`Translation ${index + 1}`}/>
-                                <InputHeaderComponent>
+                                <StyledInputHeader>
                                     Input (from {prog.language[0]?.toUpperCase()})
-                                </InputHeaderComponent>
-                                <InputResultComponent>
+                                </StyledInputHeader>
+                                <StyledInputResult>
                                     {prog.from}
-                                </InputResultComponent>
+                                </StyledInputResult>
 
-                                <InputHeaderComponent>
+                                <StyledInputHeader>
                                     Result (to {prog.language[1]?.toUpperCase()})
-                                </InputHeaderComponent>
-                                <InputResultComponent>
+                                </StyledInputHeader>
+                                <StyledInputResult>
                                     {prog.to}
-                                </InputResultComponent>
-                            </ProgressionChild>
+                                </StyledInputResult>
+                            </StyledProgress>
                         )}
                     </Accordion>
-                </BottomComponent>
-                <ToastContainer/>
-            </MainComponent>
+                </Grid>
+                <Toaster/>
+            </Grid>
         );
     }
-}
-
-export default Translation;
+};
