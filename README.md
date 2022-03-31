@@ -31,7 +31,7 @@ Download the latest release [here](https://github.com/Blookerss/goggle-trans/rel
   <img src="https://img.icons8.com/color/32/000000/linux--v1" align="left" width="32" height="32"/>
   
   ## Linux (deb)
-  > Linux is currently unsupported and unavailable.
+  > Linux is supported and available, guide soon!
 </dl>
 <dl>
   <img src="https://upload.wikimedia.org/wikipedia/commons/3/30/MacOS_logo.svg" align="left" width="32" height="32"/>
