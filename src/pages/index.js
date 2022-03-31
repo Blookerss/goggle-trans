@@ -1,13 +1,11 @@
-import IndexPage from './home';
-import HistoryPage from './history';
-import SettingsPage from './settings';
-import GeneratorPage from './generator';
-import UhOhPage from './uhoh';
+import Home from './home';
+import History from './history';
+import Settings from './settings';
+import NotFound from './uhoh';
 
 export {
-    IndexPage as Home,
-    HistoryPage as History,
-    SettingsPage as Settings,
-    GeneratorPage as Generator,
-    UhOhPage as NotFound
+    Home,
+    History,
+    Settings,
+    NotFound
 };

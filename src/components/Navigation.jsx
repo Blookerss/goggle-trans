@@ -1,32 +1,27 @@
 import React from 'react';
-import styled from 'styled-components';
 
-import Grid from './Grid';
-import Typography from './Typography';
+import Grid from '/voxeliface/components/Grid';
+import Typography from '/voxeliface/components/Typography';
 
-const NavComponent = styled(Grid)`
-    top: 64px;
-    width: 100%;
-    height: 48px;
-    z-index: 1100;
-    padding: 0 24px;
-    position: sticky;
-    background-color: #181818;
-`;
-
-class Navigation extends React.Component {
+export default class Navigation extends React.Component {
     render() {
         return (
-            <NavComponent direction="horizontal" alignItems="center" justifyContent="space-between">
+            <Grid direction="horizontal" alignItems="center" justifyContent="space-between" css={{
+                top: 64,
+                width: '100%',
+                zIndex: 1100,
+                padding: '0 24px',
+                position: 'sticky',
+                minHeight: 48,
+                background: '#181818'
+            }}>
                 <Grid spacing="24px" direction="horizontal" alignItems="center">
                     <Typography text={this.props.title} color="#cbcbcb"/>
                 </Grid>
                 <Grid spacing="24px" direction="horizontalReverse" alignItems="center">
                     {this.props.children}
                 </Grid>
-            </NavComponent>
+            </Grid>
         );
     }
-}
-
-export default Navigation;
+};

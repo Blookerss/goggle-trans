@@ -1,21 +1,21 @@
+import React from 'react';
+import { GearFill, ClockHistory } from 'react-bootstrap-icons';
+
 import App from '../components/App';
-import Main from '../components/Main';
-import Link from '../components/Link';
+import Main from '/voxeliface/components/Main';
+import Link from '/voxeliface/components/Link/Tauri';
 import Header from '../components/Header';
 import Navigation from '../components/Navigation';
 import Translation from '../components/Translation';
 
-import React from 'react';
-
-class IndexPage extends React.Component {
+export default class HomePage extends React.Component {
     render() {
         return (
             <App>
-                <Header text="goggle trans" icon={"/favicon.ico"} />
+                <Header/>
                 <Navigation>
-                    <Link to="/settings" text="Settings" icon="bi bi-gear-fill"/>
-                    <Link to="/history" text="History" icon="bi bi-clock-history"/>
-                    <Link to="/generator" text="Library Motor" icon="bi bi-joystick"/>
+                    <Link to="/settings" text="Settings" icon={<GearFill/>} color="#c7c6c6"/>
+                    <Link to="/history" text="History" icon={<ClockHistory/>} color="#c7c6c6"/>
                 </Navigation>
                 <Main>
                     <Translation/>
@@ -24,5 +24,3 @@ class IndexPage extends React.Component {
         );
     }
 };
-
-export default IndexPage;
