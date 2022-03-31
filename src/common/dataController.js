@@ -5,7 +5,6 @@ import Util from './util';
 const dataDefaults = {
     history: [],
     settings: {
-        checkApi: true,
         history: {
             enabled: true
         }
