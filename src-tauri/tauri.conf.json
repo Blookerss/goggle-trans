@@ -6,7 +6,6 @@
     "build": {
         "distDir": "../build",
         "devPath": "http://localhost:3000",
-        "withGlobalTauri": true,
         "beforeDevCommand": "",
         "beforeBuildCommand": ""
     },
@@ -29,13 +28,11 @@
             "shortDescription": "translation, 1000% funnier.",
             "longDescription": "goggle trans, messing up sentences for your own enjoyment.",
             "deb": {
-                "depends": [],
-                "useBootstrapper": false
+                "depends": []
             },
             "macOS": {
                 "frameworks": [],
                 "minimumSystemVersion": "",
-                "useBootstrapper": false,
                 "exceptionDomain": "",
                 "signingIdentity": null,
                 "entitlements": null
@@ -54,20 +51,22 @@
             "active": false
         },
         "allowlist": {
-            "notification": {
-                "all": true
-            },
-            "window": {
-                "all": true
-            },
-            "fs": {
-                "all": true
-            },
+            "all": false,
             "path": {
                 "all": true
             },
             "http": {
-                "all": true
+                "request": true
+            },
+            "window": {
+                "close": true,
+                "minimize": true,
+                "maximize": true,
+                "unmaximize": true,
+                "startDragging": true
+            },
+            "clipboard": {
+                "writeText": true
             }
         },
         "windows": [{

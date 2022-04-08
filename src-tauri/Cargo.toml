@@ -17,8 +17,14 @@ tauri-build = { version = "1.0.0-rc.4", features = [] }
 [dependencies]
 serde_json = "1.0"
 serde = { version = "1.0", features = ["derive"] }
-tauri = { version = "1.0.0-rc.4", features = ["fs-all", "http-all", "notification-all", "path-all", "window-all"] }
+tauri = { version = "1.0.0-rc.4", features = ["clipboard-write-text", "http-request", "path-all", "window-close", "window-maximize", "window-minimize", "window-start-dragging", "window-unmaximize"] }
 
 [features]
 default = [ "custom-protocol" ]
 custom-protocol = [ "tauri/custom-protocol" ]
+
+[profile.release]
+panic = "abort"
+codegen-units = 1
+lto = true
+opt-level = "s"
