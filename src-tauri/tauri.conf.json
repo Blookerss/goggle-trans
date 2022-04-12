@@ -71,6 +71,7 @@
                 "startDragging": true
             },
             "clipboard": {
+                "readText": true,
                 "writeText": true
             }
         },
