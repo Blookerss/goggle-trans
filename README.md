@@ -4,7 +4,7 @@
 </dl>
 <br/><br/><br/>
 
-**goggle trans is an application *& web app* that "helps" you ruin text using Google Translate, in the worst ways.**</br>
+**goggle trans is an application ~*& web app*~ that "helps" you ruin text using Google Translate, in the worst ways.**</br>
 
 ### ‼️ goggle trans is considered beta software and is not fully user friendly, proceed with extinguishers!
 
@@ -16,7 +16,7 @@ A full installation guide can be found [here](https://docs.voxelified.com/goggle
 All installer files can be found through the [releases](https://github.com/Blookerss/goggle-trans/releases) page.<br/>
 Download the latest release [here](https://github.com/Blookerss/goggle-trans/releases/latest).
 
-## Desktop Support
+<br/>
 <dl>
   <img src="https://img.icons8.com/fluency/000000/windows-10.svg" align="left" width="32" height="32"/>
   
@@ -40,18 +40,10 @@ Download the latest release [here](https://github.com/Blookerss/goggle-trans/rel
   > MacOS is currently unsupported and unavailable.
 </dl>
 <br/>
-<dl>
-  <img src="https://img.icons8.com/ios-filled/50/000000/ios-logo.svg" align="left" width="32" height="32"/>
-  
-  ## Apple iOS (iso)
-  > iOS is currently unavailable, check out Tauri's [platform support](https://github.com/tauri-apps/tauri#platforms).
-</dl>
-<dl>
-  <img src="https://img.icons8.com/fluency/48/000000/android-os.svg" align="left" width="32" height="32"/>
-  
-  ## Android OS (apk)
-  > Android is currently unavailable, check out Tauri's [platform support](https://github.com/tauri-apps/tauri#platforms).
-</dl>
+
+## Mobile Support
+There's a [mobile version](https://github.com/Blookerss/goggle-trans-mobile), check it out!
+
 <br/>
 
 ## 🤔 Usage
@@ -67,19 +59,14 @@ Download the latest release [here](https://github.com/Blookerss/goggle-trans/rel
 ## 🔗 Links
 
 <dl>
-  <img src="https://img.icons8.com/fluency/48/000000/link.png" align="left" width="24" height="24"/>
-
-  <s>Website</s>
-</dl>
-<dl>
   <img src="https://img.icons8.com/fluency/48/000000/documents.png" align="left" width="24" height="24"/>
   
-  [Documentation](https://docs.voxelified.com/goggle-trans)
+  [Documentation](https://docs.voxelified.com)
 </dl>
 <dl>
   <img src="./public/favicon.ico" align="left" width="24" height="24"/>
 
-  [Web App](https://goggletrans-app.blookers.repl.co)
+  <s>Web Version</s> (Coming back soon!)
 </dl><br/>
 
 ## 🧩 Building Blocks
