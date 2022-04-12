@@ -13,7 +13,7 @@ export default class UnknownPage extends React.Component {
             <App>
                 <Header/>
                 <Navigation>
-                    <Link to="/" text="Home" icon="bi bi-house-door-fill"/>
+                    <Link to="/" text="Home"/>
                 </Navigation>
                 <Main>
                     <Typography text="george not found"/>
