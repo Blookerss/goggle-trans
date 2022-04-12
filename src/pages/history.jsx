@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { styled } from '@stitches/react';
 import { HouseDoorFill } from 'react-bootstrap-icons';
 
@@ -7,9 +7,25 @@ import Main from '/voxeliface/components/Main';
 import Link from '/voxeliface/components/Link/Tauri';
 import Grid from '/voxeliface/components/Grid';
 import Header from '../components/Header';
+import Spinner from '/voxeliface/components/Spinner';
+import Divider from '/voxeliface/components/Divider';
 import Accordion from '../components/Accordion';
 import Navigation from '../components/Navigation';
 import Typography from '/voxeliface/components/Typography';
+
+const TextArea = styled('textarea', {
+    color: '#cbcbcb',
+    resize: 'none',
+    border: 'none',
+    padding: 8,
+    outline: 'none',
+    marginTop: 4,
+    maxHeight: '10rem',
+    background: '#0000002e',
+    fontFamily: 'Nunito',
+    whiteSpace: 'pre-line',
+    borderRadius: 8
+});
 
 const ProgressionChild = styled('div', {
     margin: '0 0 32px 16px',
@@ -35,88 +51,85 @@ const InputResultComponent = styled('p', {
 import DataController from '/src/common/dataController';
 const HistoryData = await DataController.getData("history");
 
-export default class HistoryPage extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            history: []
-        };
-    }
+export default function HistoryPage() {
+    const [history, setHistory] = useState();
+    useEffect(() => {
+        if(!history)
+            HistoryData.getAll().then(setHistory);
+    });
 
-    render() {
-        const { history } = this.state;
-        return (
-            <App>
-                <Header/>
-                <Navigation title="Translation History">
-                    <Link to="/" text="Home" icon={<HouseDoorFill/>} color="#c7c6c6"/>
-                </Navigation>
-                <Main>
-                    {history.length === 0 ?
-                        <Grid width="100%" spacing="8px" direction="vertical">
-                            <Typography text="There's nothing here!" size="1.6rem"/>
-                            <Typography text="You haven't translated anything yet, or you've disabled history saving!" color="#cbcbcb"/>
-                        </Grid>
-                    :
-                        <Grid width="100%" spacing="8px" direction="verticalReverse">
-                            {history.map((translation, index) => {
-                                const date = new Date(translation.date);
-                                return <Accordion key={index} summary={
-                                    <Grid width="100%" direction="horizontal" alignItems="center" justifyContent="space-between">
-                                        <Typography text={`Translation ${index + 1}`}/>
-                                        <Typography text={`${date.toLocaleDateString(undefined, { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })} ${date.toLocaleTimeString('en-us')}`} color="#cbcbcb"/>
+    return (
+        <App>
+            <Header/>
+            <Navigation title="Translation History">
+                <Link to="/" text="Home" icon={<HouseDoorFill/>}/>
+            </Navigation>
+            <Main>
+                {!history ?
+                    <React.Fragment>
+                        <Typography text="Loading History" family="Nunito"/>
+                        <Spinner/>
+                    </React.Fragment>
+                : history.length === 0 ?
+                    <React.Fragment>
+                        <Typography text="There's nothing here!" size="1.6rem"/>
+                        <Typography text="You haven't translated anything yet, or you've disabled history saving!" color="#cbcbcb"/>
+                    </React.Fragment>
+                :
+                    <Grid width="100%" spacing="8px" direction="verticalReverse">
+                        {history.map((translation, index) => {
+                            const date = new Date(translation.date);
+                            return <Accordion key={index} summary={
+                                <Grid width="100%" direction="horizontal" alignItems="center" justifyContent="space-between">
+                                    <Typography text={`Translation ${index + 1}`} weight={600} family="Nunito"/>
+                                    <Typography size=".9rem" color="#cbcbcb">
+                                        {date.toLocaleDateString(undefined, { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })} {date.toLocaleTimeString('en-us')}
+                                    </Typography>
+                                </Grid>
+                            }>
+                                <Typography text="Input" size="1.1rem" family="Nunito"/>
+                                <TextArea rows="6" value={translation.input ?? "Unknown?"} readOnly/>
+
+                                <Divider width="100%" margin="1rem 0"/>
+
+                                <Typography text="Result" size="1.1rem" family="Nunito"/>
+                                <TextArea rows="6" value={translation.result ?? "Unknown?"} readOnly/>
+
+                                <Divider width="100%" margin="1rem 0"/>
+
+                                <Grid spacing="32px" direction="horizontal">
+                                    <Grid spacing="2px" direction="vertical">
+                                        <Typography text="Translation Cycles" family="Nunito"/>
+                                        <Typography size=".8rem" color="#cbcbcb" family="Nunito">
+                                            {translation.translations ?? "Unknown?"}
+                                        </Typography>
                                     </Grid>
-                                }>
-                                    <Typography text="Input" size="1.3rem" margin="0 0 4px 0"/>
-                                    <Typography text={translation.input || "UNKNOWN"} color="#cbcbcb"/>
+                                </Grid>
+                                <Accordion title="Translation Progression" color="#1D1D1D" margin="16px 0 0 0">
+                                    {translation?.progression?.map(
+                                        (prog, index) => <ProgressionChild key={index}>
+                                            <Typography text={`Translation ${index + 1}`}/>
+                                            <InputHeaderComponent>
+                                                Input (from {prog.language[0]?.toUpperCase()})
+                                            </InputHeaderComponent>
+                                            <InputResultComponent>
+                                                {prog.from}
+                                            </InputResultComponent>
 
-                                    <Typography text="Result" size="1.3rem" margin="24px 0 4px 0"/>
-                                    <Typography text={translation.result || "UNKNOWN"} color="#cbcbcb"/>
-
-                                    <Grid margin="24px 0 0 0" spacing="32px" direction="horizontal">
-                                        <Grid spacing="4px" direction="vertical">
-                                            <Typography text="Translation Cycles" size="1.1rem"/>
-                                            <Typography text={translation.translations || "UNKNOWN"} color="#cbcbcb"/>
-                                        </Grid>
-                                        <Grid spacing="4px" direction="vertical">
-                                            <Typography text="Result Translation" size="1.1rem"/>
-                                            <Typography text={translation.outputLanguage || "UNKNOWN"} color="#cbcbcb"/>
-                                        </Grid>
-                                    </Grid>
-                                    <Accordion title="Translation Progression" color="#1D1D1D" margin="16px 0 0 0" titleSize="1rem" titleColor="#ffffffcc">
-                                        {translation?.progression?.map(
-                                            (prog, index) => <ProgressionChild key={index}>
-                                                <Typography text={`Translation ${index + 1}`}/>
-                                                <InputHeaderComponent>
-                                                    Input (from {prog.language[0]?.toUpperCase()})
-                                                </InputHeaderComponent>
-                                                <InputResultComponent>
-                                                    {prog.from}
-                                                </InputResultComponent>
-
-                                                <InputHeaderComponent>
-                                                    Result (to {prog.language[1]?.toUpperCase()})
-                                                </InputHeaderComponent>
-                                                <InputResultComponent>
-                                                    {prog.to}
-                                                </InputResultComponent>
-                                            </ProgressionChild>
-                                        ) || ["There's nothing here!"]}
-                                    </Accordion>
+                                            <InputHeaderComponent>
+                                                Result (to {prog.language[1]?.toUpperCase()})
+                                            </InputHeaderComponent>
+                                            <InputResultComponent>
+                                                {prog.to}
+                                            </InputResultComponent>
+                                        </ProgressionChild>
+                                    ) || ["There's nothing here!"]}
                                 </Accordion>
-                            })}
-                        </Grid>
-                    }
-                </Main>
-            </App>
-        );
-    }
-
-    async componentDidMount() {
-        if(HistoryData) {
-            this.setState({
-                history: await HistoryData.getAll()
-            });
-        }
-    }
+                            </Accordion>
+                        })}
+                    </Grid>
+                }
+            </Main>
+        </App>
+    );
 };
