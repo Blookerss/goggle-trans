@@ -75,13 +75,19 @@ export default function HomePage() {
                         <Grid width="100%" height="fit-content" padding="8px 14px" justifyContent="space-between" css={{
                             borderBottom: '#ffffff14 solid 1px'
                         }}>
-                            <Typography text="Your Input" size=".9rem" color="#ffffffcc" weight={400} family="Nunito"/>
+                            <Typography size=".9rem" color="#ffffffcc" weight={400} family="Nunito">
+                                Your Input ({input.length}/5000)
+                            </Typography>
                             <Button size="smaller" theme="secondary" onClick={paste} disabled={translating}>
                                 <ClipboardPlus/>
                                 Paste
                             </Button>
                         </Grid>
-                        <TextArea value={input} onChange={event => setInput(event.target.value)} placeholder="Type your input here!"/>
+                        <TextArea
+                            value={input}
+                            onChange={event => setInput(event.target.value.substring(0, 5000))}
+                            placeholder="Type your input here!"
+                        />
                     </Grid>
                     <Divider width="1px" height="100%"/>
                     <Grid width="50%" height="100%" direction="vertical">
