@@ -45,7 +45,6 @@ function translateText({ input, from, to }) {
             responseType: 'Text'
         }).then(data => {
             let json = data.slice(6);
-            console.log(json);
             const result = {
                 text: '',
                 pronunciation: '',
@@ -116,32 +115,59 @@ function rand(array) {
     return array[Math.floor((Math.random() * array.length))];
 };
 
+async function tryFunc(func, retries) {
+    let tries = 0;
+    let result;
+    let success = false;
+    while (!success && tries <= retries) {
+        tries += 1;
+        try {
+            result = await func();
+            success = true;
+        } catch(err) {
+            console.error(err);
+
+            console.warn('Retrying in 2.5s');
+            await new Promise(resolve => setTimeout(resolve, 2500));
+            console.warn(`Retrying ${tries + 1}/${retries}`)
+        };
+    };
+    if(!success)
+        throw new Error(`Function failed all calls`);
+    return result;
+};
+
 export default async function translate(input, processes, setProgress) {
     const progression = [];
     let result = input;
 
     for (let i = 0; i < processes; i++) {
-        const previous = result.toString();
-        const langFrom = rand(Object.keys(Languages)), langTo = rand(Object.keys(Languages));
-        await translateText({
-            input: result,
-            from: langFrom,
-            to: langTo
-        }).then(({ text }) => result = text);
+        await tryFunc(async() => {
+            const previous = result.toString();
+            const langFrom = rand(Object.keys(Languages)), langTo = rand(Object.keys(Languages));
+            await translateText({
+                input: result,
+                from: langFrom,
+                to: langTo
+            }).then(({ text }) => result = text);
 
-        progression.push({
-            language: [langFrom, langFrom],
-            from: previous,
-            to: result
-        });
-        setProgress(i / processes);
+            progression.push({
+                language: [langFrom, langFrom],
+                from: previous,
+                to: result
+            });
+            setProgress(i / processes);
+        }, 5);
     }
 
-    const finalResult = await translateText({
-        input: result,
-        from: 'auto',
-        to: 'en'
-    }).then(({ text }) => text);
+    const finalResult = await tryFunc(() =>
+        translateText({
+            input: result,
+            from: 'auto',
+            to: 'en'
+        }).then(({ text }) => text),
+    5);
+
     setProgress(1);
 
     progression.push({
