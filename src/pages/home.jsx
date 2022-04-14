@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import toast from 'react-hot-toast'
 import { styled } from '@stitches/react';
 import { readText, writeText } from '@tauri-apps/api/clipboard';
 import { GearFill, Translate as TranslateIcon, Clipboard, ClockHistory, ClipboardPlus } from 'react-bootstrap-icons';
@@ -12,6 +13,7 @@ import Header from '../components/Header';
 import Button from '/voxeliface/components/Button';
 import Divider from '/voxeliface/components/Divider';
 import Spinner from '/voxeliface/components/Spinner';
+import Toaster from '/voxeliface/components/Toaster';
 import Navigation from '../components/Navigation';
 import Typography from '/voxeliface/components/Typography';
 
@@ -43,19 +45,27 @@ export default function HomePage() {
     const translate = async() => {
         setTranslating(true);
 
-        const [transResult, progression] = await Translate(input, processes, setProgress);
-        setResult(transResult);
-        setTranslating(false);
+        try {
+            const [transResult, progression] = await Translate(input, processes, setProgress);
+            setResult(transResult);
+            setTranslating(false);
 
-        if(await SettingsData.get('history.enabled'))
-            HistoryData.add({
-                date: Date.now(),
-                input,
-                result: transResult,
-                language: 'en',
-                progression,
-                translations: processes
-            });
+            if(await SettingsData.get('history.enabled'))
+                HistoryData.add({
+                    date: Date.now(),
+                    input,
+                    result: transResult,
+                    language: 'en',
+                    progression,
+                    translations: processes
+                });
+        } catch(err) {
+            console.error(err);
+            toast.error("Translation Failed");
+
+            setTranslating(false);
+            setProgress(0);
+        }
     };
     const paste = () => readText().then(setInput);
     const copy = () => writeText(result);
@@ -68,6 +78,7 @@ export default function HomePage() {
                 <Link to="/history" text="History" icon={<ClockHistory/>}/>
             </Navigation>
             <Main>
+                <Toaster/>
                 <Grid width="100%" height="70%" background="#00000026" borderRadius="8px" css={{
                     border: '#ffffff14 solid 1px'
                 }}>
@@ -85,6 +96,7 @@ export default function HomePage() {
                         </Grid>
                         <TextArea
                             value={input}
+                            readOnly={translating}
                             onChange={event => setInput(event.target.value.substring(0, 5000))}
                             placeholder="Type your input here!"
                         />
