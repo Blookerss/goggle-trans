@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import toast from 'react-hot-toast'
+import toast from 'react-hot-toast';
 import { styled } from '@stitches/react';
 import { readText, writeText } from '@tauri-apps/api/clipboard';
 import { GearFill, Translate as TranslateIcon, Clipboard, ClockHistory, ClipboardPlus } from 'react-bootstrap-icons';

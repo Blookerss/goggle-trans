@@ -1,26 +1,20 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
+import { createRoot } from 'react-dom/client';
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 import { Home, History, Settings, NotFound } from './pages';
 
-const Tauri = window.__TAURI__;
-const rootElement = document.getElementById('root');
-
 import '/voxeliface/src/index.css';
-ReactDOM.render(
-    <BrowserRouter>
-        <Routes>
-            <Route exact path="/" element={<Home/>}/>
-            <Route exact path="/history" element={<History/>}/>
-            <Route exact path="/settings" element={<Settings/>}/>
-            <Route path="/*" element={<NotFound/>}/>
-        </Routes>
-    </BrowserRouter>,
-    rootElement
+const root = createRoot(document.getElementById('root'));
+root.render(
+    <React.StrictMode>
+        <BrowserRouter>
+            <Routes>
+                <Route exact path="/" element={<Home/>}/>
+                <Route exact path="/history" element={<History/>}/>
+                <Route exact path="/settings" element={<Settings/>}/>
+                <Route path="/*" element={<NotFound/>}/>
+            </Routes>
+        </BrowserRouter>
+    </React.StrictMode>
 );
-
-if (Tauri) {
-    rootElement.classList.add("root-tauri");
-    document.body.classList.add("body-tauri");
-}

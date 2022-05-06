@@ -1,6 +1,6 @@
 import App from '../components/App';
 import Main from '/voxeliface/components/Main';
-import Link from '/voxeliface/components/Link';
+import Link from '/voxeliface/components/Link/Tauri';
 import Header from '../components/Header';
 import Navigation from '../components/Navigation';
 import Typography from '/voxeliface/components/Typography';
