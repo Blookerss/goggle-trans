@@ -1,42 +1,36 @@
-import { http, invoke } from '@tauri-apps/api';
-
+import { invoke } from '@tauri-apps/api';
+import { Body, fetch } from '@tauri-apps/api/http';
 export default class Util {
     static async makeRequest(url, options = {}) {
-        if(options.query) {
-            const keys = Object.keys(options.query);
-            for (let i = 0; i < keys.length; i++) {
-                const value = options.query[keys[i]];
-                if (value !== undefined)
-                    options.query[keys[i]] = value.toString();
-            }
-        }
-        const response = await invoke("web_request", {
-            url,
-            body: options.body ?? http.Body.json({}),
-            method: options.method ?? "GET",
+        console.log(options.method ?? 'GET', url, options);
+        const response = await fetch(url, {
+            body: options.body ?? Body.text(''),
             query: options.query ?? {},
+            method: options.method ?? 'get',
             headers: options.headers ?? {},
-            responseType: {JSON: 1, Text: 2, Binary: 3}[options.responseType] ?? 1
+            responseType: {JSON: 1, Text: 2, Binary: 3}[options.responseType] ?? 2
         });
+        console.log(url, options, response);
+        if(!response.ok)
+            throw new Error(`${response.status} ${response.data}`);
+        if((response.headers['content-type']?.includes('application/json') || options.forceJson) && !options.ignoreJson)
+            response.data = JSON.parse(response.data);
         return response.data;
     }
 
     static readTextFile(path) {
-        return invoke("fs_read_text_file", { path }).catch(err => {
-            console.error(`Failed to read ${path}`);
-            throw err;
-        });
+        return invoke('fs_read_text_file', { path }).catch(err => {throw new Error(`readTextFile failed: ${err}`)});
     }
 
     static writeFile(path, contents) {
-        return invoke("fs_write_file", { path, contents });
+        return invoke('fs_write_file', { path, contents }).catch(err => {throw new Error(`writeFile failed: ${err}`)});
     }
 
     static fileExists(path) {
-        return invoke("fs_file_exists", { path });
+        return invoke('fs_file_exists', { path }).catch(err => {throw new Error(`fileExists failed: ${err}`)});
     }
 
     static createDir(path) {
-        return invoke("fs_create_dir_all", { path });
+        return invoke('fs_create_dir_all', { path }).catch(err => {throw new Error(`createDir failed: ${err}`)});
     }
 };

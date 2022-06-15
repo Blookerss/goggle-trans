@@ -13,7 +13,7 @@
         "bundle": {
             "active": true,
             "targets": "all",
-            "identifier": "io.github.blookers.goggletrans",
+            "identifier": "io.blookers.goggletrans",
             "icon": [
                 "icons/32x32.png",
                 "icons/128x128.png",
@@ -56,12 +56,12 @@
             ]
         },
         "allowlist": {
-            "all": false,
-            "path": {
-                "all": true
+            "clipboard": {
+                "readText": true,
+                "writeText": true
             },
-            "http": {
-                "request": true
+            "process": {
+                "exit": true
             },
             "window": {
                 "minimize": true,
@@ -69,12 +69,14 @@
                 "unmaximize": true,
                 "startDragging": true
             },
-            "process": {
-                "exit": true
+            "http": {
+                "scope": [
+                    "https://*/*"
+                ],
+                "request": true
             },
-            "clipboard": {
-                "readText": true,
-                "writeText": true
+            "path": {
+                "all": true
             }
         },
         "windows": [{

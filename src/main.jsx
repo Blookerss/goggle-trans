@@ -1,20 +1,17 @@
 import React from 'react';
+import { Provider } from 'react-redux';
 import { createRoot } from 'react-dom/client';
-import { BrowserRouter, Routes, Route } from "react-router-dom";
 
-import { Home, History, Settings, NotFound } from './pages';
+import store from './common/store';
+import Navigation from './pages/navigation';
 
+import './localization';
 import '/voxeliface/src/index.css';
 const root = createRoot(document.getElementById('root'));
 root.render(
     <React.StrictMode>
-        <BrowserRouter>
-            <Routes>
-                <Route exact path="/" element={<Home/>}/>
-                <Route exact path="/history" element={<History/>}/>
-                <Route exact path="/settings" element={<Settings/>}/>
-                <Route path="/*" element={<NotFound/>}/>
-            </Routes>
-        </BrowserRouter>
+        <Provider store={store}>
+            <Navigation/>
+        </Provider>
     </React.StrictMode>
 );

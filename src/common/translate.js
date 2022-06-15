@@ -37,11 +37,12 @@ function translateText({ input, from, to }) {
                     ])
                 ) + '&'
             ),
-            method: 'POST',
             query: data,
+            method: 'POST',
             headers: {
                 'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8'
             },
+            ignoreJson: true,
             responseType: 'Text'
         }).then(data => {
             let json = data.slice(6);
@@ -152,12 +153,12 @@ export default async function translate(input, processes, setProgress) {
             }).then(({ text }) => result = text);
 
             progression.push({
-                language: [langFrom, langFrom],
+                language: [langFrom, langTo],
                 from: previous,
                 to: result
             });
             setProgress(i / processes);
-        }, 5);
+        }, 1);
     }
 
     const finalResult = await tryFunc(() =>

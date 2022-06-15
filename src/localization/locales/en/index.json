@@ -1,0 +1,24 @@
+{
+    "app.goggletrans.settings.header.title": "Settings",
+    "app.goggletrans.settings.general": "General Settings",
+    "app.goggletrans.settings.history": "History Settings",
+
+    "app.goggletrans.settings.general.theme": "Theme",
+    "app.goggletrans.settings.general.theme.summary": "Choose a theme that suits you best!",
+    "app.goggletrans.settings.general.theme.category": "Themes",
+    "app.goggletrans.settings.general.theme.items.default": "Default",
+    "app.goggletrans.settings.general.theme.items.light": "Light",
+    "app.goggletrans.settings.general.theme.items.dark": "Dark",
+    "app.goggletrans.settings.general.theme.items.purple": "Purple",
+
+    "app.goggletrans.settings.general.language": "Language",
+    "app.goggletrans.settings.general.language.summary": "Placeholder",
+    "app.goggletrans.settings.general.language.category": "Languages",
+
+    "app.goggletrans.settings.history.enabled": "History Storage",
+    "app.goggletrans.settings.history.enabled.summary": "Turning this off will prevent translations from being saved.\nTranslations are only stored on your file system.",
+
+    "app.goggletrans.navigation.home": "Home",
+    "app.goggletrans.navigation.history": "History",
+    "app.goggletrans.navigation.settings": "Settings"
+}

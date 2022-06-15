@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import toast from 'react-hot-toast';
 import { styled } from '@stitches/react';
+import { useTranslation } from 'react-i18next';
+import { useSelector, useDispatch } from 'react-redux';
 import { readText, writeText } from '@tauri-apps/api/clipboard';
 import { GearFill, Translate as TranslateIcon, Clipboard, ClockHistory, ClipboardPlus } from 'react-bootstrap-icons';
 
@@ -14,13 +16,13 @@ import Button from '/voxeliface/components/Button';
 import Divider from '/voxeliface/components/Divider';
 import Spinner from '/voxeliface/components/Spinner';
 import Toaster from '/voxeliface/components/Toaster';
-import Navigation from '../components/Navigation';
 import Typography from '/voxeliface/components/Typography';
 
 import Translate from '../common/translate';
-
+import { addEntry, saveHistory } from '../common/slices/history';
+import { setSetting, saveSettings } from '../common/slices/settings';
 const TextArea = styled('textarea', {
-    color: '#cbcbcb',
+    color: '$primaryColor',
     height: '100%',
     resize: 'none',
     border: 'none',
@@ -29,16 +31,18 @@ const TextArea = styled('textarea', {
     fontSize: '.9rem',
     background: 'none',
     fontFamily: 'Nunito',
-    whiteSpace: 'pre-line'
+    whiteSpace: 'pre-line',
+
+    '&::placeholder': {
+        color: '$secondaryColor'
+    }
 });
 
-import DataController from '/src/common/dataController';
-const SettingsData = await DataController.getData("settings");
-const HistoryData = await DataController.getData("history");
-
 export default function HomePage() {
-    const [input, setInput] = useState("");
-    const [result, setResult] = useState("");
+    const historyEnabled = useSelector(state => state.settings['history.enabled']);
+    const dispatch = useDispatch();
+    const [input, setInput] = useState('');
+    const [result, setResult] = useState('');
     const [progress, setProgress] = useState(0);
     const [processes, setProcesses] = useState(5);
     const [translating, setTranslating] = useState(false);
@@ -50,15 +54,15 @@ export default function HomePage() {
             setResult(transResult);
             setTranslating(false);
 
-            if(await SettingsData.get('history.enabled'))
-                HistoryData.add({
+            if(historyEnabled)
+                dispatch(addEntry({
                     date: Date.now(),
                     input,
                     result: transResult,
                     language: 'en',
                     progression,
                     translations: processes
-                });
+                }));
         } catch(err) {
             console.error(err);
             toast.error("Translation Failed");
@@ -70,72 +74,62 @@ export default function HomePage() {
     const paste = () => readText().then(setInput);
     const copy = () => writeText(result);
 
-    return (
-        <App>
-            <Header/>
-            <Navigation>
-                <Link to="/settings" text="Settings" icon={<GearFill/>}/>
-                <Link to="/history" text="History" icon={<ClockHistory/>}/>
-            </Navigation>
-            <Main>
-                <Toaster/>
-                <Grid width="100%" height="70%" background="#00000026" borderRadius="8px" css={{
-                    border: '#ffffff14 solid 1px'
+    return <Grid width="100%" height="100%" padding="2rem 2.5rem" direction="vertical">
+        <Grid width="100%" height="70%" background="$secondaryBackground2" borderRadius={8} css={{
+            border: '$secondaryBorder2 solid 1px'
+        }}>
+            <Grid width="50%" height="100%" direction="vertical">
+                <Grid width="100%" height="fit-content" padding="8px 14px" justifyContent="space-between" css={{
+                    borderBottom: '$secondaryBorder2 solid 1px'
                 }}>
-                    <Grid width="50%" height="100%" direction="vertical">
-                        <Grid width="100%" height="fit-content" padding="8px 14px" justifyContent="space-between" css={{
-                            borderBottom: '#ffffff14 solid 1px'
-                        }}>
-                            <Typography size=".9rem" color="#ffffffcc" weight={400} family="Nunito">
-                                Your Input ({input.length}/5000)
-                            </Typography>
-                            <Button size="smaller" theme="secondary" onClick={paste} disabled={translating}>
-                                <ClipboardPlus/>
-                                Paste
-                            </Button>
-                        </Grid>
-                        <TextArea
-                            value={input}
-                            readOnly={translating}
-                            onChange={event => setInput(event.target.value.substring(0, 5000))}
-                            placeholder="Type your input here!"
-                        />
-                    </Grid>
-                    <Divider width="1px" height="100%"/>
-                    <Grid width="50%" height="100%" direction="vertical">
-                        <Grid width="100%" height="fit-content" padding="8px 14px" direction="horizontalReverse" justifyContent="space-between" css={{
-                            borderBottom: '#ffffff14 solid 1px'
-                        }}>
-                            <Typography text="Translation Result" size=".9rem" color="#ffffffcc" weight={400} family="Nunito"/>
-                            <Button size="smaller" theme="secondary" onClick={copy} disabled={!result}>
-                                <Clipboard/>
-                                Copy
-                            </Button>
-                        </Grid>
-                        <TextArea value={result} placeholder="Translation" readOnly/>
-                    </Grid>
-                </Grid>
-                <Grid margin="1rem" spacing="4px" direction="vertical" alignItems="center">
-                    <Typography size=".8rem" family="Nunito">
-                        Process Amount
+                    <Typography size=".9rem" color="$primaryColor" weight={400} family="Nunito">
+                        Your Input ({input.length}/5000)
                     </Typography>
-                    <Range
-                        min="1"
-                        max="15"
-                        value={processes}
-                        disabled={translating}
-                        onChange={event => setProcesses(event.target.value)}
-                    />
-                    <Button onClick={translate} disabled={!input || translating} style={{
-                        width: '8rem',
-                        marginTop: '1rem',
-                        background: translating ? `linear-gradient(90deg, #578976 ${(progress * 100) - 1}%, #57897680 ${progress * 100}%)` : undefined
-                    }}>
-                        {translating ? <Spinner size={14}/> : <TranslateIcon/>}
-                        Translate
+                    <Button size="smaller" theme="secondary" onClick={paste} disabled={translating}>
+                        <ClipboardPlus/>
+                        Paste
                     </Button>
                 </Grid>
-            </Main>
-        </App>
-    );
+                <TextArea
+                    value={input}
+                    readOnly={translating}
+                    onChange={event => setInput(event.target.value.substring(0, 5000))}
+                    placeholder="Type your input here!"
+                />
+            </Grid>
+            <Divider width={1} height="100%" color="$secondaryBorder2"/>
+            <Grid width="50%" height="100%" direction="vertical">
+                <Grid width="100%" height="fit-content" padding="8px 14px" direction="horizontalReverse" justifyContent="space-between" css={{
+                    borderBottom: '$secondaryBorder2 solid 1px'
+                }}>
+                    <Typography text="Translation Result" size=".9rem" color="$primaryColor" weight={400} family="Nunito"/>
+                    <Button size="smaller" theme="secondary" onClick={copy} disabled={!result}>
+                        <Clipboard/>
+                        Copy
+                    </Button>
+                </Grid>
+                <TextArea value={result} placeholder="Translation" readOnly/>
+            </Grid>
+        </Grid>
+        <Grid margin="1rem" spacing={4} direction="vertical" alignItems="center">
+            <Typography size=".8rem" color="$primaryColor" family="Nunito">
+                Process Amount
+            </Typography>
+            <Range
+                min="1"
+                max="15"
+                value={processes}
+                disabled={translating}
+                onChange={event => setProcesses(event.target.value)}
+            />
+            <Button onClick={translate} disabled={!input || translating} style={{
+                width: '8rem',
+                marginTop: '1rem',
+                background: translating ? `linear-gradient(90deg, #578976 ${(progress * 100) - 1}%, #57897680 ${progress * 100}%)` : undefined
+            }}>
+                {translating ? <Spinner size={14}/> : <TranslateIcon/>}
+                Translate
+            </Button>
+        </Grid>
+    </Grid>;
 };
