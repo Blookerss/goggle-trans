@@ -1,6 +1,6 @@
 [package]
 name = "goggle-trans"
-version = "0.0.1"
+version = "2.5.0"
 description = "A Tauri App"
 authors = ["Blookers"]
 license = ""
@@ -12,12 +12,12 @@ rust-version = "1.61"
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [build-dependencies]
-tauri-build = { version = "1.0.0-rc.14", features = [] }
+tauri-build = { version = "1.0.0", features = [] }
 
 [dependencies]
 serde_json = "1.0"
 serde = { version = "1.0", features = ["derive"] }
-tauri = { version = "1.0.0-rc.16", features = ["clipboard-read-text", "clipboard-write-text", "http-request", "path-all", "process-exit", "window-maximize", "window-minimize", "window-start-dragging", "window-unmaximize"] }
+tauri = { version = "1.0.0", features = ["clipboard-read-text", "clipboard-write-text", "http-request", "path-all", "process-exit", "shell-open", "updater", "window-maximize", "window-minimize", "window-start-dragging", "window-unmaximize"] }
 
 [features]
 default = [ "custom-protocol" ]

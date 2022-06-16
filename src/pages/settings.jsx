@@ -1,19 +1,25 @@
-import React from 'react';
+import React, { useState } from 'react';
+import { open } from '@tauri-apps/api/shell';
+import { checkUpdate } from '@tauri-apps/api/updater';
 import { useTranslation } from 'react-i18next';
-import { HouseDoorFill } from 'react-bootstrap-icons';
+import { Github, EnvelopeOpen, CloudArrowDown } from 'react-bootstrap-icons';
 import { useDispatch, useSelector } from 'react-redux';
+import { getName, getVersion, getTauriVersion } from '@tauri-apps/api/app';
 
-import App from '../components/App';
-import Main from '/voxeliface/components/Main';
-import Link from '/voxeliface/components/Link/Tauri';
 import Grid from '/voxeliface/components/Grid';
-import Header from '../components/Header';
+import Image from '/voxeliface/components/Image';
 import Toggle from '../components/Toggle';
+import Button from '/voxeliface/components/Button';
 import Typography from '/voxeliface/components/Typography';
 import TextHeader from '/voxeliface/components/Typography/Header';
 import * as Select from '/voxeliface/components/Input/Select';
+import BasicSpinner from '/voxeliface/components/BasicSpinner';
 
 import { setSetting, saveSettings } from '../common/slices/settings';
+
+const appName = await getName();
+const appVersion = await getVersion();
+const tauriVersion = await getTauriVersion();
 export default function SettingsPage() {
     const dispatch = useDispatch();
     const { t, i18n } = useTranslation();
@@ -21,6 +27,7 @@ export default function SettingsPage() {
     const theme = useSelector(state => state.settings.theme);
     const language = useSelector(state => state.settings.language);
     const historyEnabled = useSelector(state => state.settings['history.enabled']);
+    const [updating, setUpdating] = useState(false);
     const changeLanguage = value => {
         changeSetting('language', value);
         i18n.changeLanguage(value);
@@ -29,7 +36,17 @@ export default function SettingsPage() {
         dispatch(setSetting([key, value]));
         dispatch(saveSettings());
     };
-    return <Grid width="100%" height="100%" padding=".75rem 1rem" direction="vertical">
+    const updateCheck = () => {
+        setUpdating(true);
+        checkUpdate().then(({ shouldUpdate }) => {
+            if (!shouldUpdate)
+                toast('No updates available!', { duration: 5000 });
+            setUpdating(false);
+        });
+    };
+    const reportIssue = () => open('https://github.com/Blookerss/goggle-trans/issues/new');
+    const openGithub = () => open('https://github.com/Blookerss/goggle-trans');
+    return <Grid width="100%" height="fit-content" padding=".75rem 1rem" direction="vertical">
         <TextHeader>{t('app.goggletrans.settings.general')}</TextHeader>
         <Grid spacing={8} padding="0 1rem" direction="vertical">
             <Setting name="general.theme">
@@ -66,6 +83,7 @@ export default function SettingsPage() {
                 </Select.Root>
             </Setting>
         </Grid>
+
         <TextHeader spacious>{t('app.goggletrans.settings.history')}</TextHeader>
         <Grid spacing={8} padding="0 1rem" direction="vertical">
             <Setting name="history.enabled" direction="horizontal">
@@ -78,6 +96,37 @@ export default function SettingsPage() {
                     {historyEnabled ? 'On' : 'Off'}
                 </Typography>
             </Setting>
+        </Grid>
+
+        <TextHeader spacious>{t('app.goggletrans.settings.about')}</TextHeader>
+        <Grid spacing={8} padding="0 1rem" direction="vertical">
+            <Grid spacing={8} alignItems="center">
+                <Image src="img/icons/brand_default.svg" size={48}/>
+                <Grid spacing={2} direction="vertical">
+                    <Typography color="$primaryColor" family="Nunito" lineheight={1}>
+                        {appName} v{appVersion}
+                    </Typography>
+                    <Typography size=".7rem" color="$secondaryColor" family="Nunito" lineheight={1}>
+                        {t('app.goggletrans.settings.about.tauri', {
+                            val: tauriVersion
+                        })}
+                    </Typography>
+                </Grid>
+            </Grid>
+            <Grid spacing={8}>
+                <Button theme="accent" onClick={updateCheck} disabled={updating}>
+                    {updating ? <BasicSpinner size={16}/> : <CloudArrowDown size={14}/>}
+                    {t('app.goggletrans.settings.about.check_for_updates')}
+                </Button>
+                <Button theme="accent" onClick={reportIssue}>
+                    <EnvelopeOpen size={14}/>
+                    {t('app.goggletrans.settings.about.report_bug')}
+                </Button>
+                <Button theme="secondary" onClick={openGithub}>
+                    <Github size={14}/>
+                    {t('app.goggletrans.settings.about.github')}
+                </Button>
+            </Grid>
         </Grid>
     </Grid>;
 };

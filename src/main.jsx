@@ -1,6 +1,7 @@
 import React from 'react';
 import { Provider } from 'react-redux';
 import { createRoot } from 'react-dom/client';
+import { checkUpdate } from '@tauri-apps/api/updater';
 
 import store from './common/store';
 import Navigation from './pages/navigation';
@@ -15,3 +16,5 @@ root.render(
         </Provider>
     </React.StrictMode>
 );
+
+setInterval(() => checkUpdate(), 5 * 60000);

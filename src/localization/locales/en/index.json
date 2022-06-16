@@ -2,6 +2,7 @@
     "app.goggletrans.settings.header.title": "Settings",
     "app.goggletrans.settings.general": "General Settings",
     "app.goggletrans.settings.history": "History Settings",
+    "app.goggletrans.settings.about": "About this build",
 
     "app.goggletrans.settings.general.theme": "Theme",
     "app.goggletrans.settings.general.theme.summary": "Choose a theme that suits you best!",
@@ -17,6 +18,11 @@
 
     "app.goggletrans.settings.history.enabled": "History Storage",
     "app.goggletrans.settings.history.enabled.summary": "Turning this off will prevent translations from being saved.\nTranslations are only stored on your file system.",
+
+    "app.goggletrans.settings.about.tauri": "Running Tauri {{val}}",
+    "app.goggletrans.settings.about.check_for_updates": "Check for Updates",
+    "app.goggletrans.settings.about.report_bug": "Report an issue",
+    "app.goggletrans.settings.about.github": "Visit GitHub Site",
 
     "app.goggletrans.navigation.home": "Home",
     "app.goggletrans.navigation.history": "History",
