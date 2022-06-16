@@ -92,7 +92,7 @@ export default function SettingsPage() {
                     checked={historyEnabled}
                     changed={v => changeSetting('history.enabled', v)}
                 />
-                <Typography size=".8rem" color="$secondaryColor" family="Nunito">
+                <Typography size=".8rem" color="$secondaryColor" >
                     {historyEnabled ? 'On' : 'Off'}
                 </Typography>
             </Setting>
@@ -103,10 +103,10 @@ export default function SettingsPage() {
             <Grid spacing={8} alignItems="center">
                 <Image src="img/icons/brand_default.svg" size={48}/>
                 <Grid spacing={2} direction="vertical">
-                    <Typography color="$primaryColor" family="Nunito" lineheight={1}>
+                    <Typography color="$primaryColor"  lineheight={1}>
                         {appName} v{appVersion}
                     </Typography>
-                    <Typography size=".7rem" color="$secondaryColor" family="Nunito" lineheight={1}>
+                    <Typography size=".7rem" color="$secondaryColor"  lineheight={1}>
                         {t('app.goggletrans.settings.about.tauri', {
                             val: tauriVersion
                         })}
@@ -138,11 +138,11 @@ function Setting({ name, children, direction, noSummary }) {
         marginBottom: 8
     }}>
         <Grid spacing={4} padding=".5rem .6rem" direction="vertical">
-            <Typography color="$primaryColor" family="Nunito" lineheight={1}>
+            <Typography color="$primaryColor"  lineheight={1}>
                 {t(stringBase)}
             </Typography>
             {!noSummary &&
-                <Typography size=".8rem" color="$secondaryColor" weight={400} family="Nunito" lineheight={1.2} whitespace="pre-wrap" textalign="start">
+                <Typography size=".8rem" color="$secondaryColor" weight={400}  lineheight={1.2} whitespace="pre-wrap" textalign="start">
                     {t(`${stringBase}.summary`)}
                 </Typography>
             }

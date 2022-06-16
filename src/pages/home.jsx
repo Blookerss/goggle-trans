@@ -23,7 +23,7 @@ const TextArea = styled('textarea', {
     outline: 'none',
     fontSize: '.9rem',
     background: 'none',
-    fontFamily: 'Nunito',
+    fontFamily: '$primaryFont',
     whiteSpace: 'pre-line',
 
     '&::placeholder': {
@@ -77,7 +77,7 @@ export default function HomePage() {
                 <Grid width="100%" height="fit-content" padding="8px 14px" justifyContent="space-between" css={{
                     borderBottom: '$secondaryBorder2 solid 1px'
                 }}>
-                    <Typography size=".9rem" color="$primaryColor" weight={400} family="Nunito">
+                    <Typography size=".9rem" color="$primaryColor" weight={400} >
                         Your Input ({input.length}/5000)
                     </Typography>
                     <Button size="smaller" theme="secondary" onClick={paste} disabled={translating}>
@@ -97,7 +97,7 @@ export default function HomePage() {
                 <Grid width="100%" height="fit-content" padding="8px 14px" direction="horizontalReverse" justifyContent="space-between" css={{
                     borderBottom: '$secondaryBorder2 solid 1px'
                 }}>
-                    <Typography text="Translation Result" size=".9rem" color="$primaryColor" weight={400} family="Nunito"/>
+                    <Typography text="Translation Result" size=".9rem" color="$primaryColor" weight={400} />
                     <Button size="smaller" theme="secondary" onClick={copy} disabled={!result}>
                         <Clipboard/>
                         Copy
@@ -107,7 +107,7 @@ export default function HomePage() {
             </Grid>
         </Grid>
         <Grid margin="1rem" spacing={4} direction="vertical" alignItems="center">
-            <Typography size=".8rem" color="$primaryColor" family="Nunito">
+            <Typography size=".8rem" color="$primaryColor" >
                 Process Amount
             </Typography>
             <Range

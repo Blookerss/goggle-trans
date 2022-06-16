@@ -31,7 +31,7 @@ export default function Accordion({ css, color, title, summary, children, titleS
                         size={titleSize ?? '1rem'}
                         color={titleColor ?? '$primaryColor'}
                         weight={600}
-                        family="Nunito"
+                        family="$primaryFont"
                         lineheight={1.5}
                     />
                 }

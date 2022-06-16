@@ -64,19 +64,19 @@ export default function Navigation() {
                     border: '1px solid $secondaryBorder2',
                     position: 'relative'
                 }}>
-                    <Typography size="1.2rem" color="$primaryColor" weight={600} family="Nunito Sans">
+                    <Typography size="1.2rem" color="$primaryColor" weight={600} family="$primaryFontSans">
                         New Update Available
                     </Typography>
-                    <Typography size=".9rem" color="$secondaryColor" weight={400} family="Nunito">
+                    <Typography size=".9rem" color="$secondaryColor" weight={400} >
                         Version {update.version} - Released {updateDate.getTime() ? new Intl.RelativeTimeFormat('en', {
                             numeric: 'always' 
                         }).format(-Math.round((Date.now() - updateDate) / 86400000), 'day') : 'at an unknown date'}
                     </Typography>
-                    <Typography size=".9rem" color="$secondaryColor" weight={400} family="Nunito">
+                    <Typography size=".9rem" color="$secondaryColor" weight={400} >
                         You are currently running {appName} v{appVersion}
                     </Typography>
 
-                    <Typography size=".9rem" color="$primaryColor" weight={400} margin="1rem 0 0" family="Nunito">
+                    <Typography size=".9rem" color="$primaryColor" weight={400} margin="1rem 0 0" >
                         Release notes:
                     </Typography>
                     <Markdown text={update.body} css={{
