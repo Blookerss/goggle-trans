@@ -44,7 +44,7 @@ There's a [mobile version](https://github.com/Blookerss/goggle-trans-mobile), ch
 <br/>
 
 ## 🤔 Usage
-
+temporary: https://docs.voxelified.com
 <br/>
 
 ## 🥰 Contributing
@@ -60,31 +60,3 @@ There's a [mobile version](https://github.com/Blookerss/goggle-trans-mobile), ch
   
   [Documentation](https://docs.voxelified.com)
 </dl>
-<dl>
-  <img src="./public/favicon.ico" align="left" width="24" height="24"/>
-
-  <s>Web Version</s> (Coming back soon!)
-</dl><br/>
-
-## 🧩 Building Blocks
-<dl>
-  <a href="https://tauri.studio"><img src="https://tauri.studio/en/img/tauri_with_wordmark_dark.svg" align="left" height="32" alt="Tauri"/></a>
-  
-  [![Github Icon](https://img.icons8.com/fluency/32/000000/github.svg)](https://github.com/tauri-apps)
-</dl>
-<dl>
-  
-  [![React Icon](https://img.icons8.com/cute-clipart/32/000000/react-native.svg)](https://reactjs.org)
-  [![Github Icon](https://img.icons8.com/fluency/32/000000/github.svg)](https://github.com/tauri-apps)
-</dl>
-<dl>
-  <a href="https://styled-components.com"><img src="https://github.com/styled-components/brand/blob/master/styled-components.svg" align="left" height="64" alt="Styled Components"/></a>
-  
-  [![Github Icon](https://img.icons8.com/fluency/32/000000/github.svg)](https://github.com/styled-components/styled-components)
-</dl><br/>
-<dl>
-  <a href="https://fastify.io"><img src="https://www.fastify.io/images/fastify-logo-menu.d13f8da7a965c800.png" align="left" height="32" alt="Fastify"/></a>
-  
-  [![Github Icon](https://img.icons8.com/fluency/32/000000/github.svg)](https://github.com/fastify/fastify)
-</dl>
-<br/>
