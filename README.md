@@ -1,12 +1,9 @@
 <dl>
-  <img src="./public/favicon.ico" alt="goggle trans" align="left" width="64" height="64"/>
-  <img src="./public/goggletrans_text.png?v=14" alt="goggle trans" align="left"/>
+  <img src="public/img/banners/brand_text.svg" alt="goggle trans" align="left" height="64"/>
 </dl>
 <br/><br/><br/>
 
 **goggle trans is an application ~*& web app*~ that "helps" you ruin text using Google Translate, in the worst ways.**</br>
-
-### ‼️ goggle trans is considered beta software and is not fully user friendly, proceed with extinguishers!
 
 
 <br/>
