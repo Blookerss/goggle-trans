@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import { Toaster } from 'react-hot-toast';
+import { installUpdate } from '@tauri-apps/api/updater';
 import { useTranslation } from 'react-i18next';
-import { useSelector, useDispatch } from 'react-redux';
 import { getName, getVersion } from '@tauri-apps/api/app';
-import { checkUpdate, installUpdate } from '@tauri-apps/api/updater';
+import { useSelector, useDispatch } from 'react-redux';
 import { XLg, Gear, House, Github, Download, ClockHistory } from 'react-bootstrap-icons';
 
 import App from '../components/App';
