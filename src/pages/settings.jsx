@@ -6,16 +6,16 @@ import { Github, EnvelopeOpen, CloudArrowDown } from 'react-bootstrap-icons';
 import { useDispatch, useSelector } from 'react-redux';
 import { getName, getVersion, getTauriVersion } from '@tauri-apps/api/app';
 
-import Grid from '/voxeliface/components/Grid';
-import Image from '/voxeliface/components/Image';
-import Toggle from '../components/Toggle';
-import Button from '/voxeliface/components/Button';
-import Typography from '/voxeliface/components/Typography';
-import TextHeader from '/voxeliface/components/Typography/Header';
-import * as Select from '/voxeliface/components/Input/Select';
-import BasicSpinner from '/voxeliface/components/BasicSpinner';
+import Grid from 'voxelnents/Grid';
+import Image from 'voxelnents/Image';
+import Toggle from 'components/Toggle';
+import Button from 'voxelnents/Button';
+import Typography from 'voxelnents/Typography';
+import TextHeader from 'voxelnents/Typography/Header';
+import * as Select from 'voxelnents/Input/Select';
+import BasicSpinner from 'voxelnents/BasicSpinner';
 
-import { setSetting, saveSettings } from '../common/slices/settings';
+import { setSetting, saveSettings } from 'common/slices/settings';
 
 const appName = await getName();
 const appVersion = await getVersion();

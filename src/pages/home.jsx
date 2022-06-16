@@ -5,15 +5,15 @@ import { useSelector, useDispatch } from 'react-redux';
 import { readText, writeText } from '@tauri-apps/api/clipboard';
 import { Translate as TranslateIcon, Clipboard, ClipboardPlus } from 'react-bootstrap-icons';
 
-import Grid from '/voxeliface/components/Grid';
-import Range from '/voxeliface/components/Range';
-import Button from '/voxeliface/components/Button';
-import Divider from '/voxeliface/components/Divider';
-import Spinner from '/voxeliface/components/Spinner';
-import Typography from '/voxeliface/components/Typography';
+import Grid from 'voxelnents/Grid';
+import Range from 'voxelnents/Range';
+import Button from 'voxelnents/Button';
+import Divider from 'voxelnents/Divider';
+import Spinner from 'voxelnents/Spinner';
+import Typography from 'voxelnents/Typography';
 
-import Translate from '../common/translate';
-import { addEntry, saveHistory } from '../common/slices/history';
+import Translate from 'common/translate';
+import { addEntry, saveHistory } from 'common/slices/history';
 const TextArea = styled('textarea', {
     color: '$primaryColor',
     height: '100%',

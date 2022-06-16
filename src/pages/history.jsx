@@ -2,11 +2,11 @@ import React from 'react';
 import { styled } from '@stitches/react';
 import { useSelector } from 'react-redux';
 
-import Grid from '/voxeliface/components/Grid';
-import Spinner from '/voxeliface/components/Spinner';
-import Accordion from '../components/Accordion';
-import Typography from '/voxeliface/components/Typography';
-import TextHeader from '/voxeliface/components/Typography/Header';
+import Grid from 'voxelnents/Grid';
+import Spinner from 'voxelnents/Spinner';
+import Accordion from 'components/Accordion';
+import Typography from 'voxelnents/Typography';
+import TextHeader from 'voxelnents/Typography/Header';
 const TextArea = styled('textarea', {
     color: '$primaryColor',
     resize: 'none',

@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 
-import Grid from '/voxeliface/components/Grid';
-import Divider from '/voxeliface/components/Divider';
-import Typography from '/voxeliface/components/Typography';
+import Grid from 'voxelnents/Grid';
+import Divider from 'voxelnents/Divider';
+import Typography from 'voxelnents/Typography';
 export default function Accordion({ css, color, title, summary, children, titleSize, titleColor, ...props }) {
     const [open, setOpen] = useState(false);
     const toggle = () => setOpen(!open);

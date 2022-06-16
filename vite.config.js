@@ -10,6 +10,13 @@ export default defineConfig({
         outDir: 'build',
         target: 'esnext'
     },
+    resolve: {
+        alias: {
+            common: '/src/common',
+            components: '/src/components',
+            voxelnents: '/voxeliface/components'
+        }
+    },
     plugins: [
         react()
     ]

@@ -1,7 +1,7 @@
 import React from 'react';
 
-import Image from '/voxeliface/components/Image';
-import DefaultHeader from '/voxeliface/components/Header/Tauri';
+import Image from 'voxelnents/Image';
+import DefaultHeader from 'voxelnents/Header/Tauri';
 export default function Header({ icon, ...props }) {
     return (
         <DefaultHeader brand={<>

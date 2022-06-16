@@ -6,20 +6,20 @@ import { getName, getVersion } from '@tauri-apps/api/app';
 import { useSelector, useDispatch } from 'react-redux';
 import { XLg, Gear, House, Github, Download, ClockHistory } from 'react-bootstrap-icons';
 
-import App from '../components/App';
+import App from 'components/App';
 import Home from './home';
-import Main from '/voxeliface/components/Main';
-import Grid from '/voxeliface/components/Grid';
-import Header from '../components/Header';
-import Button from '/voxeliface/components/Button';
+import Main from 'voxelnents/Main';
+import Grid from 'voxelnents/Grid';
+import Header from 'components/Header';
+import Button from 'voxelnents/Button';
 import History from './history';
 import Settings from './settings';
-import Markdown from '/voxeliface/components/Markdown';
-import Typography from '/voxeliface/components/Typography';
-import SideNavigation from '/voxeliface/components/SideNavigation';
-import NavigationItem from '/voxeliface/components/SideNavigation/Item';
+import Markdown from 'voxelnents/Markdown';
+import Typography from 'voxelnents/Typography';
+import SideNavigation from 'voxelnents/SideNavigation';
+import NavigationItem from 'voxelnents/SideNavigation/Item';
 
-import { ignoreUpdate } from '../common/slices/updater';
+import { ignoreUpdate } from 'common/slices/updater';
 const appName = await getName(), appVersion = await getVersion();
 export default function Navigation() {
     const { t } = useTranslation();
