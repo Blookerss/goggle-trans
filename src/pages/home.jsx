@@ -1,26 +1,19 @@
 import React, { useState } from 'react';
 import toast from 'react-hot-toast';
 import { styled } from '@stitches/react';
-import { useTranslation } from 'react-i18next';
 import { useSelector, useDispatch } from 'react-redux';
 import { readText, writeText } from '@tauri-apps/api/clipboard';
-import { GearFill, Translate as TranslateIcon, Clipboard, ClockHistory, ClipboardPlus } from 'react-bootstrap-icons';
+import { Translate as TranslateIcon, Clipboard, ClipboardPlus } from 'react-bootstrap-icons';
 
-import App from '../components/App';
-import Main from '/voxeliface/components/Main';
 import Grid from '/voxeliface/components/Grid';
-import Link from '/voxeliface/components/Link/Tauri';
 import Range from '/voxeliface/components/Range';
-import Header from '../components/Header';
 import Button from '/voxeliface/components/Button';
 import Divider from '/voxeliface/components/Divider';
 import Spinner from '/voxeliface/components/Spinner';
-import Toaster from '/voxeliface/components/Toaster';
 import Typography from '/voxeliface/components/Typography';
 
 import Translate from '../common/translate';
 import { addEntry, saveHistory } from '../common/slices/history';
-import { setSetting, saveSettings } from '../common/slices/settings';
 const TextArea = styled('textarea', {
     color: '$primaryColor',
     height: '100%',
@@ -54,7 +47,7 @@ export default function HomePage() {
             setResult(transResult);
             setTranslating(false);
 
-            if(historyEnabled)
+            if(historyEnabled) {
                 dispatch(addEntry({
                     date: Date.now(),
                     input,
@@ -63,6 +56,8 @@ export default function HomePage() {
                     progression,
                     translations: processes
                 }));
+                dispatch(saveHistory());
+            }
         } catch(err) {
             console.error(err);
             toast.error("Translation Failed");
