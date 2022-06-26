@@ -1,0 +1,28 @@
+{
+    "app.goggletrans.settings.header.title": "Iestātījumi",
+    "app.goggletrans.settings.general": "Ģenerāli Iestātījumi",
+    "app.goggletrans.settings.history": "History Settings",
+    "app.goggletrans.settings.about": "Par šo buildu",
+
+    "app.goggletrans.settings.general.theme": "Izskats",
+    "app.goggletrans.settings.general.theme.summary": "Izvēlies izskatu, kas tev piestāv vislabāk!",
+    "app.goggletrans.settings.general.theme.category": "Izskati",
+    "app.goggletrans.settings.general.theme.items.default": "Noklusējums",
+    "app.goggletrans.settings.general.theme.items.light": "Gaišs",
+    "app.goggletrans.settings.general.theme.items.dark": "Tumšs",
+    "app.goggletrans.settings.general.theme.items.purple": "Violets",
+
+    "app.goggletrans.settings.general.language": "Valoda",
+    "app.goggletrans.settings.general.language.summary": "Placeholder",
+    "app.goggletrans.settings.general.language.category": "Valodas",
+
+    "app.goggletrans.settings.about.tauri": "Skriešana Tauri {{val}}",
+    "app.goggletrans.settings.about.check_for_updates": "Pārbaudīt Atjaunijājumus",
+    "app.goggletrans.settings.about.report_bug": "Ziņot par problēmu",
+    "app.goggletrans.settings.about.github": "Apmeklēt GitHub saiti",
+
+    "app.goggletrans.navigation.home": "Mājas",
+    "app.goggletrans.navigation.textgen": "Text Generator",
+    "app.goggletrans.navigation.history": "Vēsture",
+    "app.goggletrans.navigation.settings": "Iestātījumi"
+}

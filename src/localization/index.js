@@ -9,6 +9,10 @@ await i18n
         en: {
             translation: (await import('./locales/en')).default,
             'app.goggletrans.common': (await import('./locales/en/common')).default
+        },
+        lv: {
+            translation: (await import('./locales/lv')).default,
+            'app.goggletrans.common': (await import('./locales/lv/common')).default
         }
     },
     lng: settingsSlice.getInitialState().language,

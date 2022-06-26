@@ -1,4 +1,7 @@
 {
+    "actions.copy": "Copy",
+    "actions.paste": "Paste",
+
     "locales.en": "English",
     "locales.lv": "Latviešu",
     "locales.ru": "Русский"

@@ -27,5 +27,17 @@
     "app.goggletrans.navigation.home": "Home",
     "app.goggletrans.navigation.textgen": "Text Generator",
     "app.goggletrans.navigation.history": "History",
-    "app.goggletrans.navigation.settings": "Settings"
+    "app.goggletrans.navigation.settings": "Settings",
+
+    "app.goggletrans.translator.input.header": "Your Input ({{val}}/{{max}})",
+    "app.goggletrans.translator.input.placeholder": "Type your input here!",
+    "app.goggletrans.translator.result.header": "Translation Result",
+    "app.goggletrans.translator.result.placeholder": "The result of the translation will appear here.",
+    "app.goggletrans.translator.process_amount": "Process Amount ({{val}})",
+    "app.goggletrans.translator.translate": "Translate",
+
+    "app.goggletrans.textgen.note1": "This uses InferKit's text generation demo.",
+    "app.goggletrans.textgen.note2": "You receive 10000 characters every week, check your amount",
+    "app.goggletrans.textgen.note_link": " here.",
+    "app.goggletrans.textgen.input_length": "Generator Length ({{val}})"
 }

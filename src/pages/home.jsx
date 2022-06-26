@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
 import toast from 'react-hot-toast';
 import { styled } from '@stitches/react';
-import { useSelector, useDispatch } from 'react-redux';
+import { useTranslation } from 'react-i18next';
 import { readText, writeText } from '@tauri-apps/api/clipboard';
+import { useSelector, useDispatch } from 'react-redux';
 import { Translate as TranslateIcon, Clipboard, ClipboardPlus } from 'react-bootstrap-icons';
 
 import Grid from 'voxelnents/Grid';
@@ -32,8 +33,9 @@ const TextArea = styled('textarea', {
 });
 
 export default function HomePage() {
-    const historyEnabled = useSelector(state => state.settings['history.enabled']);
+    const { t } = useTranslation();
     const dispatch = useDispatch();
+    const historyEnabled = useSelector(state => state.settings['history.enabled']);
     const [input, setInput] = useState('');
     const [result, setResult] = useState('');
     const [progress, setProgress] = useState(0);
@@ -78,18 +80,21 @@ export default function HomePage() {
                     borderBottom: '$secondaryBorder2 solid 1px'
                 }}>
                     <Typography size=".9rem" color="$primaryColor" weight={400} >
-                        Your Input ({input.length}/5000)
+                        {t('app.goggletrans.translator.input.header', {
+                            val: input.length,
+                            max: 5000
+                        })}
                     </Typography>
                     <Button size="smaller" theme="secondary" onClick={paste} disabled={translating}>
                         <ClipboardPlus/>
-                        Paste
+                        {t('app.goggletrans.common:actions.paste')}
                     </Button>
                 </Grid>
                 <TextArea
                     value={input}
                     readOnly={translating}
                     onChange={event => setInput(event.target.value.substring(0, 5000))}
-                    placeholder="Type your input here!"
+                    placeholder={t('app.goggletrans.translator.input.placeholder')}
                 />
             </Grid>
             <Divider width={1} height="100%" color="$secondaryBorder2"/>
@@ -97,18 +102,24 @@ export default function HomePage() {
                 <Grid width="100%" height="fit-content" padding="8px 14px" direction="horizontalReverse" justifyContent="space-between" css={{
                     borderBottom: '$secondaryBorder2 solid 1px'
                 }}>
-                    <Typography text="Translation Result" size=".9rem" color="$primaryColor" weight={400} />
+                    <Typography size=".9rem" color="$primaryColor" weight={400}>
+                        {t('app.goggletrans.translator.result.header')}
+                    </Typography>
                     <Button size="smaller" theme="secondary" onClick={copy} disabled={!result}>
                         <Clipboard/>
-                        Copy
+                        {t('app.goggletrans.common:actions.copy')}
                     </Button>
                 </Grid>
-                <TextArea value={result} placeholder="Translation" readOnly/>
+                <TextArea
+                    value={result}
+                    placeholder={t('app.goggletrans.translator.result.placeholder')}
+                    readOnly
+                />
             </Grid>
         </Grid>
         <Grid margin="1rem" spacing={4} direction="vertical" alignItems="center">
             <Typography size=".8rem" color="$primaryColor" >
-                Process Amount ({processes})
+                {t('app.goggletrans.translator.process_amount', { val: processes })}
             </Typography>
             <Slider
                 min={1}
@@ -123,7 +134,7 @@ export default function HomePage() {
                 background: translating ? `linear-gradient(90deg, #578976 ${(progress * 100) - 1}%, #57897680 ${progress * 100}%)` : undefined
             }}>
                 {translating ? <Spinner size={14}/> : <TranslateIcon/>}
-                Translate
+                {t('app.goggletrans.translator.translate')}
             </Button>
         </Grid>
     </Grid>;
