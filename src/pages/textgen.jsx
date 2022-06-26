@@ -1,17 +1,21 @@
 import React, { useState } from 'react';
 import toast from 'react-hot-toast';
+import { Body } from '@tauri-apps/api/http';
+import { open } from '@tauri-apps/api/shell';
 import { styled } from '@stitches/react';
-import { useSelector, useDispatch } from 'react-redux';
 import { readText, writeText } from '@tauri-apps/api/clipboard';
+import { useSelector, useDispatch } from 'react-redux';
 import { Translate as TranslateIcon, Clipboard, ClipboardPlus } from 'react-bootstrap-icons';
 
 import Grid from 'voxelnents/Grid';
+import Link from 'voxelnents/Link';
 import Button from 'voxelnents/Button';
 import Slider from 'voxelnents/Input/Slider';
 import Divider from 'voxelnents/Divider';
 import Spinner from 'voxelnents/Spinner';
 import Typography from 'voxelnents/Typography';
 
+import Util from 'common/util';
 import Translate from 'common/translate';
 import { addEntry, saveHistory } from 'common/slices/history';
 const TextArea = styled('textarea', {
@@ -31,11 +35,12 @@ const TextArea = styled('textarea', {
     }
 });
 
-export default function HomePage() {
+export default function TextGenerator() {
     const historyEnabled = useSelector(state => state.settings['history.enabled']);
     const dispatch = useDispatch();
     const [input, setInput] = useState('');
     const [result, setResult] = useState('');
+    const [length, setLength] = useState(200);
     const [progress, setProgress] = useState(0);
     const [processes, setProcesses] = useState(5);
     const [translating, setTranslating] = useState(false);
@@ -43,7 +48,19 @@ export default function HomePage() {
         setTranslating(true);
 
         try {
-            const [transResult, progression] = await Translate(input, processes, setProgress);
+            const { data } = await Util.makeRequest('https://api.inferkit.com/v1/models/standard/generate', {
+                body: Body.json({
+                    length,
+                    prompt: {
+                        text: input,
+                        isContinuation: false
+                    }
+                }),
+                query: { useDemoCredits: 'true' },
+                method: 'POST'
+            });
+            console.log(data);
+            const [transResult, progression] = await Translate(input + data.text, processes, setProgress);
             setResult(transResult);
             setTranslating(false);
 
@@ -70,6 +87,13 @@ export default function HomePage() {
     const copy = () => writeText(result);
 
     return <Grid width="100%" height="100%" padding="2rem 2.5rem" direction="vertical">
+        <Typography size=".8rem" color="$secondaryColor" weight={400} margin="0 0 1rem" textalign="start">
+            This uses InferKit's text generation demo.
+            <span>
+                You receive 10000 characters every week, check your amount
+                <Link onClick={() => open('https://app.inferkit.com/demo')}> here.</Link>
+            </span>
+        </Typography>
         <Grid width="100%" height="70%" background="$secondaryBackground2" borderRadius={8} css={{
             border: '$secondaryBorder2 solid 1px'
         }}>
@@ -77,8 +101,8 @@ export default function HomePage() {
                 <Grid width="100%" height="fit-content" padding="8px 14px" justifyContent="space-between" css={{
                     borderBottom: '$secondaryBorder2 solid 1px'
                 }}>
-                    <Typography size=".9rem" color="$primaryColor" weight={400} >
-                        Your Input ({input.length}/5000)
+                    <Typography size=".9rem" color="$primaryColor" weight={400}>
+                        Your Input ({input.length}/256)
                     </Typography>
                     <Button size="smaller" theme="secondary" onClick={paste} disabled={translating}>
                         <ClipboardPlus/>
@@ -88,7 +112,7 @@ export default function HomePage() {
                 <TextArea
                     value={input}
                     readOnly={translating}
-                    onChange={event => setInput(event.target.value.substring(0, 5000))}
+                    onChange={event => setInput(event.target.value.substring(0, 256))}
                     placeholder="Type your input here!"
                 />
             </Grid>
@@ -106,17 +130,34 @@ export default function HomePage() {
                 <TextArea value={result} placeholder="Translation" readOnly/>
             </Grid>
         </Grid>
-        <Grid margin="1rem" spacing={4} direction="vertical" alignItems="center">
-            <Typography size=".8rem" color="$primaryColor" >
-                Process Amount ({processes})
-            </Typography>
-            <Slider
-                min={1}
-                max={15}
-                value={[processes]}
-                disabled={translating}
-                onChange={setProcesses}
-            />
+        <Grid margin="1rem 1rem 0" spacing={4} direction="vertical" alignItems="center">
+            <Grid spacing={16} direction="horizontal">
+                <Grid spacing={4} direction="vertical" alignItems="center">
+                    <Typography size=".8rem" color="$primaryColor" weight={400}>
+                        Process Amount ({processes})
+                    </Typography>
+                    <Slider
+                        min={1}
+                        max={5}
+                        value={[processes]}
+                        disabled={translating}
+                        onChange={setProcesses}
+                    />
+                </Grid>
+                <Grid spacing={4} direction="vertical" alignItems="center">
+                    <Typography size=".8rem" color="$primaryColor" weight={400}>
+                        Generator Amount ({length})
+                    </Typography>
+                    <Slider
+                        min={10}
+                        max={1000}
+                        step={10}
+                        value={[length]}
+                        disabled={translating}
+                        onChange={setLength}
+                    />
+                </Grid>
+            </Grid>
             <Button onClick={translate} disabled={!input || translating} style={{
                 width: '8rem',
                 marginTop: '1rem',

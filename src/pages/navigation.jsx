@@ -4,7 +4,7 @@ import { installUpdate } from '@tauri-apps/api/updater';
 import { useTranslation } from 'react-i18next';
 import { getName, getVersion } from '@tauri-apps/api/app';
 import { useSelector, useDispatch } from 'react-redux';
-import { XLg, Gear, House, Github, Download, ClockHistory } from 'react-bootstrap-icons';
+import { XLg, Gear, House, Github, Download, CardText, ClockHistory } from 'react-bootstrap-icons';
 
 import App from 'components/App';
 import Home from './home';
@@ -16,6 +16,7 @@ import History from './history';
 import Settings from './settings';
 import Markdown from 'voxelnents/Markdown';
 import Typography from 'voxelnents/Typography';
+import TextGenerator from './textgen';
 import SideNavigation from 'voxelnents/SideNavigation';
 import NavigationItem from 'voxelnents/SideNavigation/Item';
 
@@ -38,10 +39,13 @@ export default function Navigation() {
                 <NavigationItem name={t('app.goggletrans.navigation.home')} icon={<House size={16}/>} value={0} direction="horizontal">
                     <Home/>
                 </NavigationItem>
-                <NavigationItem name={t('app.goggletrans.navigation.history')} icon={<ClockHistory size={16}/>} value={1} direction="horizontal">
+                <NavigationItem name={t('app.goggletrans.navigation.textgen')} icon={<CardText size={16}/>} value={1} direction="horizontal">
+                    <TextGenerator/>
+                </NavigationItem>
+                <NavigationItem name={t('app.goggletrans.navigation.history')} icon={<ClockHistory size={16}/>} value={2} direction="horizontal">
                     <History/>
                 </NavigationItem>
-                <NavigationItem name={t('app.goggletrans.navigation.settings')} icon={<Gear size={16}/>} value={2} direction="horizontal">
+                <NavigationItem name={t('app.goggletrans.navigation.settings')} icon={<Gear size={16}/>} value={3} footer direction="horizontal">
                     <Settings/>
                 </NavigationItem>
             </SideNavigation>
