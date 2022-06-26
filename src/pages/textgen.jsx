@@ -40,9 +40,9 @@ export default function TextGenerator() {
     const dispatch = useDispatch();
     const [input, setInput] = useState('');
     const [result, setResult] = useState('');
-    const [length, setLength] = useState(200);
+    const [length, setLength] = useState([200]);
     const [progress, setProgress] = useState(0);
-    const [processes, setProcesses] = useState(5);
+    const [processes, setProcesses] = useState([5]);
     const [translating, setTranslating] = useState(false);
     const translate = async() => {
         setTranslating(true);
@@ -50,7 +50,7 @@ export default function TextGenerator() {
         try {
             const { data } = await Util.makeRequest('https://api.inferkit.com/v1/models/standard/generate', {
                 body: Body.json({
-                    length,
+                    length: length[0],
                     prompt: {
                         text: input,
                         isContinuation: false
@@ -60,7 +60,7 @@ export default function TextGenerator() {
                 method: 'POST'
             });
             console.log(data);
-            const [transResult, progression] = await Translate(input + data.text, processes, setProgress);
+            const [transResult, progression] = await Translate(input + data.text, processes[0], setProgress);
             setResult(transResult);
             setTranslating(false);
 
@@ -85,7 +85,6 @@ export default function TextGenerator() {
     };
     const paste = () => readText().then(setInput);
     const copy = () => writeText(result);
-
     return <Grid width="100%" height="100%" padding="2rem 2.5rem" direction="vertical">
         <Typography size=".8rem" color="$secondaryColor" weight={400} margin="0 0 1rem" textalign="start">
             This uses InferKit's text generation demo.
@@ -139,7 +138,7 @@ export default function TextGenerator() {
                     <Slider
                         min={1}
                         max={5}
-                        value={[processes]}
+                        value={processes}
                         disabled={translating}
                         onChange={setProcesses}
                     />
@@ -152,7 +151,7 @@ export default function TextGenerator() {
                         min={10}
                         max={1000}
                         step={10}
-                        value={[length]}
+                        value={length}
                         disabled={translating}
                         onChange={setLength}
                     />

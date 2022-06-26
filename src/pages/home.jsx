@@ -37,13 +37,13 @@ export default function HomePage() {
     const [input, setInput] = useState('');
     const [result, setResult] = useState('');
     const [progress, setProgress] = useState(0);
-    const [processes, setProcesses] = useState(5);
+    const [processes, setProcesses] = useState([5]);
     const [translating, setTranslating] = useState(false);
     const translate = async() => {
         setTranslating(true);
 
         try {
-            const [transResult, progression] = await Translate(input, processes, setProgress);
+            const [transResult, progression] = await Translate(input, processes[0], setProgress);
             setResult(transResult);
             setTranslating(false);
 
@@ -113,7 +113,7 @@ export default function HomePage() {
             <Slider
                 min={1}
                 max={15}
-                value={[processes]}
+                value={processes}
                 disabled={translating}
                 onChange={setProcesses}
             />
