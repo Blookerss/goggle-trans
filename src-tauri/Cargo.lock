@@ -1014,7 +1014,7 @@ dependencies = [
 
 [[package]]
 name = "goggle-trans"
-version = "2.5.0"
+version = "2.6.0"
 dependencies = [
  "serde",
  "serde_json",
